@@ -1,0 +1,36 @@
+.disable-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem;
+
+}
+
+.background {
+    background-image: url('../img/curved0.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-signup {
+    background-image: url('../img/Calagus\ Islands.jpg');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-password {
+    background-image: url('../img/salle-de-restauration.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-bio {
+    background-image: url('../img/some-crocs-at-the-croc.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
