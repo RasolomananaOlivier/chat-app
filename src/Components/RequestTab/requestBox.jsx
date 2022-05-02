@@ -1,10 +1,4 @@
-import {
-  Cancel,
-  CheckCircle,
-  ClearRounded,
-  ControlPoint,
-  Remove,
-} from "@mui/icons-material";
+import { Cancel, CheckCircle, ControlPoint } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -14,11 +8,10 @@ import {
   IconButton,
   ListItem,
 } from "@mui/material";
-import { useContext, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { baseURL } from "../../Config/server";
 import { SocketContext } from "../../Config/socket";
-import { deleteRequestFriend } from "../../Services/Data/requestSlice";
 
 export default function RequestBox({
   id,
@@ -27,7 +20,6 @@ export default function RequestBox({
   details,
   collections,
 }) {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
   const socket = useContext(SocketContext);
@@ -42,12 +34,9 @@ export default function RequestBox({
     console.log("acceptehandler", data);
 
     /*--- And delete from the request --- */
-    // dispatch(deleteRequestFriend(id));
   };
 
-  const declineHandler = () => {
-    dispatch(deleteRequestFriend(id));
-  };
+  const declineHandler = () => {};
   return (
     <ListItem
       alignItems="flex-start"
@@ -95,7 +84,6 @@ export default function RequestBox({
 export function SuggestionBox({ id, name, avatarFileName, details, email }) {
   const user = useSelector((state) => state.user);
   const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
 
   const handleSendRequest = () => {
     const data = {

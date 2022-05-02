@@ -2,14 +2,7 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import {
-  Announcement,
-  Chat,
-  ChatBubble,
-  Home,
-  Logout,
-  Settings,
-} from "@mui/icons-material";
+import { Announcement, Chat, Logout, Settings } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import AlertDialog from "../AlertDialog";
 
@@ -31,11 +24,6 @@ const iconsStyleSmallNav2 = {
   borderRadius: "50%",
   fontSize: 24,
   color: "#d9e0e0",
-};
-const iconsStyleSmallNav2Active = {
-  borderRadius: "50%",
-  fontSize: 24,
-  color: "black",
 };
 
 function a11yProps(index) {

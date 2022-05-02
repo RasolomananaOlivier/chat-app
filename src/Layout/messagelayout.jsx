@@ -13,8 +13,6 @@ import {
   resetMore,
   toggleLoadAll,
 } from "../Services/Data/messageSlice";
-import { SocketContext } from "../Config/socket";
-import { addOneMessageToOneCollection } from "../Services/Data/messagesArraySlice";
 import { baseURL } from "../Config/server";
 
 export default function Messagelayout() {
@@ -116,6 +114,7 @@ export default function Messagelayout() {
       //   console.log("unmount");
       dispatch(resetMore());
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

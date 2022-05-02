@@ -12,8 +12,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { validateSignup } from "./validation";
-import { signup } from "../../Services/Api/signup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateTheUserInfo } from "../../Services/Data/infoSlice";
 
 export default function Step1({

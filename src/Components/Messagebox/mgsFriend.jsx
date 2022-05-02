@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { Box, Paper, Avatar, IconButton } from "@mui/material";
 
-import Slide from "@mui/material/Slide";
 import { MoreVert } from "@mui/icons-material";
 import { MessageMenu } from "../Menu";
 
 // Image
-import Media1 from "./2.jpg";
 import ModalImageViewer from "../ModalImageViewer";
 import { baseURL } from "../../Config/server";
 import { useSelector } from "react-redux";

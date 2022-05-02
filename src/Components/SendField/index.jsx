@@ -2,8 +2,7 @@ import { CameraAlt, Send } from "@mui/icons-material";
 import { Box, IconButton, Modal, TextField, Button } from "@mui/material";
 import { useContext, useState } from "react";
 import { iconsStyleSmall } from "../VerticalTabs";
-import { useSelector, useDispatch } from "react-redux";
-import { addNewMessage } from "../../Services/Data/messageSlice";
+import { useSelector } from "react-redux";
 import { SocketContext } from "../../Config/socket";
 import { upload } from "../../Services/Api/uploadAvatar";
 

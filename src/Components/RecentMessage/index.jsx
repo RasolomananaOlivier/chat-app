@@ -19,6 +19,7 @@ export default function RecentMessage() {
     socket.on("OFFLINE_USERS", (offlineUsers) => {
       setonlineUsersState(offlineUsers);
     });
+    // eslint-disable-next-line
   }, []);
 
   /*-- Get all friends --- */

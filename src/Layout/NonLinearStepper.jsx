@@ -10,11 +10,6 @@ import Step1 from "../Pages/Signup/step1";
 import Step2 from "../Pages/Signup/step2";
 import Step3 from "../Pages/Signup/step3";
 
-// image
-import signup from "../Assets/img/signup.jpg";
-import passwd from "../Assets/img/passwd.jpg";
-import biopic from "../Assets/img/bio.webp";
-
 const steps = ["Personal information", "Password", "Bio"];
 
 export default function HorizontalNonLinearStepper() {

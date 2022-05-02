@@ -4,7 +4,6 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Logout, CoPresent, Palette, VerifiedUser } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { borderLeft, style } from "@mui/system";
 
 function a11yProps(index) {
   return {

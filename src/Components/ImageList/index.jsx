@@ -2,8 +2,6 @@ import * as React from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-import pic1 from "./1.jpg";
-
 import { useSelector } from "react-redux";
 import { baseURL } from "../../Config/server";
 

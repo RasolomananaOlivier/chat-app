@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from "react";
 /* MUI Component */
 import Stack from "@mui/material/Stack";
 import styled from "@emotion/styled";
-import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
@@ -13,9 +12,6 @@ import { baseURL } from "../../Config/server";
 import { SocketContext } from "../../Config/socket";
 
 /* Item style */
-const Item = styled(Paper)(({ theme }) => ({
-  textAlign: "center",
-}));
 
 /* BadgeStyle */
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -36,6 +32,7 @@ function SideNavigation() {
 
   useEffect(() => {
     socket.emit("USER_CONNECTED", user._id);
+    // eslint-disable-next-line
   }, []);
   return (
     <Stack sx={{ height: "100vh", bgcolor: "rgb(25, 25, 80)" }}>

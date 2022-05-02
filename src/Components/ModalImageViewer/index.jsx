@@ -1,5 +1,4 @@
 import { Box, Button, Modal } from "@mui/material";
-import Url from "../../Assets/img/avatar1.jpg";
 import { baseURL } from "../../Config/server";
 
 const style = {

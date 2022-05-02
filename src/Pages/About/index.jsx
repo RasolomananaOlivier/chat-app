@@ -1,11 +1,4 @@
-import {
-  ColorLens,
-  Home,
-  Phonelink,
-  Security,
-  Shield,
-  Timer,
-} from "@mui/icons-material";
+import { ColorLens, Phonelink, Security, Timer } from "@mui/icons-material";
 import { Box, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
 

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Paper, Avatar, Slide, IconButton } from "@mui/material";
+import { Box, Paper, IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { MessageMenu2 } from "../Menu";
 import ModalImageViewer from "../ModalImageViewer";
-import Media1 from "../../Assets/img/billing-background-balance.png";
 import { baseURL } from "../../Config/server";
 
 export default function MessageUser({
@@ -13,7 +12,6 @@ export default function MessageUser({
   type,
   mediaFileName,
 }) {
-  const [mouted, setmouted] = useState(false);
   /* --- Show menu --- */
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -26,16 +24,8 @@ export default function MessageUser({
 
   /* --- Get the current target of the button --- */
   const showMenu = (e) => {
-    console.log(e.currentTarget);
     setAnchorEl(e.currentTarget);
   };
-  useEffect(() => {
-    setmouted((prev) => !prev);
-
-    return () => {
-      setmouted((prev) => !prev);
-    };
-  }, []);
 
   const [hovered, setHovered] = useState(false);
 

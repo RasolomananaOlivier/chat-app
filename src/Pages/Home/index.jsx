@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -6,7 +6,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 
 import IconLabelTabs from "../../Components/IconLabelTabs";
 import TextField from "@mui/material/TextField";
-import { Button, makeStyles } from "@mui/material";
+import { Button } from "@mui/material";
 import Messagelayout from "../../Layout/messagelayout";
 import MessageDetails from "../../Components/MessageDetails";
 import "../../Assets/css/utils.css";
@@ -124,6 +124,7 @@ function Home() {
     socket.on("disconnect", () => {
       socket.connect();
     });
+    // eslint-disable-next-line
   }, []);
 
   const user = useSelector((state) => state.user);
@@ -139,10 +140,6 @@ function Home() {
       return <NotificationTab />;
     }
   }, [value]);
-
-  const handleClick = () => {
-    socket.emit("test", { o: "0" });
-  };
 
   return (
     <Grid container sx={{ height: "100%" }}>

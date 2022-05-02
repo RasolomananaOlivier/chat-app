@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import Avatar from "@mui/material/Avatar";
 import styled from "@emotion/styled";
 import {
   Badge,
-  Box,
   Divider,
   ListItemAvatar,
   ListItemButton,
@@ -16,11 +15,7 @@ import { updateMessageUI } from "../../Services/Data/messageSlice";
 import { updateMedias } from "../../Services/Data/mediaSlice";
 import { updateFriendData } from "../../Services/Data/friendSlice";
 import { updateAfterReading } from "../../Services/Data/messagesArraySlice";
-import {
-  generateDefaultMedia,
-  generateDefaultMessage,
-} from "../../Services/Data/default";
-import { addOneMedia } from "../../Services/Data/allMediasSlice";
+
 import { baseURL } from "../../Config/server";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -67,7 +62,6 @@ const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
 
 export default function Userbox({ active, name, id, avatarFileName, online }) {
   const [myLastMessage, setMyLastMessage] = useState(null);
-  const [read, setread] = useState(false);
 
   const listMessages = useSelector((state) => state.messagesArray);
   const mediasCollections = useSelector((state) => state.mediasCollections);
@@ -80,6 +74,7 @@ export default function Userbox({ active, name, id, avatarFileName, online }) {
    */
   const messageHavingTheId = useMemo(() => {
     return findOne(listMessages, id);
+    // eslint-disable-next-line
   }, [listMessages]);
 
   const dispatch = useDispatch();
