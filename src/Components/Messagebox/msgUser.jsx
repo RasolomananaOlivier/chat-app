@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Paper, IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { MessageMenu2 } from "../Menu";

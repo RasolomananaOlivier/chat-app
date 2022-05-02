@@ -1,5 +1,5 @@
 import { Box, Avatar, IconButton, Divider, Typography } from "@mui/material";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import AccountMenu from "../Components/Menu";
 import { Menu, ReplayOutlined } from "@mui/icons-material";
