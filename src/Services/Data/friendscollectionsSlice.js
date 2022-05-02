@@ -5,7 +5,7 @@ let initialState = [
         _id: '2',
         lastName: 'Joe',
         firstName: 'Doe',
-        avatarId: '15',
+        avatarFileName: '',
         email: 'joe@gmail.com',
         bio: 'lorem lorem lorem',
 
@@ -14,7 +14,7 @@ let initialState = [
         _id: '3',
         lastName: 'Jenny',
         firstName: 'Doe',
-        avatarId: '15',
+        avatarFileName: '',
         email: 'jenny@gmail.com',
         bio: 'lorem lorem lorem',
 
@@ -23,7 +23,7 @@ let initialState = [
         _id: '4',
         lastName: 'Ben',
         firstName: 'Doe',
-        avatarId: '15',
+        avatarFileName: '',
         email: 'ben@gmail.com',
         bio: 'lorem lorem lorem',
 
@@ -34,15 +34,12 @@ const friendSlice = createSlice({
     initialState,
     name: 'friendsCollections',
     reducers: {
-        addNewFriend: (state, action) => {
-            state.push(
-                action.payload
-            )
-        }
+        fetchingTheFriendsCollections: (state, action) => {
+            return action.payload;
+        },
     }
-
 })
 
-export const { addNewFriend } = friendSlice.actions
+export const { fetchingTheFriendsCollections } = friendSlice.actions;
 
 export default friendSlice.reducer;

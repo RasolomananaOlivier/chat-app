@@ -1,5 +1,5 @@
 import { Box, Avatar, IconButton, Divider, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import AccountMenu from "../Components/Menu";
 import { Menu, ReplayOutlined } from "@mui/icons-material";
@@ -13,6 +13,9 @@ import {
   resetMore,
   toggleLoadAll,
 } from "../Services/Data/messageSlice";
+import { SocketContext } from "../Config/socket";
+import { addOneMessageToOneCollection } from "../Services/Data/messagesArraySlice";
+import { baseURL } from "../Config/server";
 
 export default function Messagelayout() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,7 +25,7 @@ export default function Messagelayout() {
 
   /* -- Message data from redux -- */
   const MessagesRedux = useSelector((state) => state.messages);
-  const infoUser = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   /* -- Get the current friend to render in the ui -- */
   const friendInfo = useSelector((state) => state.friend);
@@ -44,7 +47,7 @@ export default function Messagelayout() {
       for (let i = length; i > length - more; i--) {
         topFive.unshift(items[i]);
       }
-      console.log(topFive);
+      // console.log(topFive);
       return topFive;
     } else if (more >= length && !loadAll) {
       dispatch(toggleLoadAll());
@@ -81,7 +84,7 @@ export default function Messagelayout() {
   const getRecentMessageAfterChange = useCallback(() => {
     let { items, more, loadAll } = MessagesRedux;
     /* UnderFlow if Messages is empty */
-    if (items.length === 0) {
+    if (items?.length === 0) {
       return [];
     }
     let topFive = [];
@@ -108,19 +111,21 @@ export default function Messagelayout() {
     const loaded = getRecentMessageAfterChange();
     setmessages(loaded);
 
-    console.log(">Store/friend ", friendInfo.hasOwnProperty("_id"));
+    // console.log(">Store/friend ", friendInfo.hasOwnProperty("_id"));
     return () => {
       //   console.log("unmount");
       dispatch(resetMore());
     };
   }, []);
 
-  const MessagesItems = useSelector((state) => state.messages.items);
   useEffect(() => {
     // console.log(MessagesItems);
     const loaded = getRecentMessageAfterChange();
-    setmessages([...loaded]);
-  }, [MessagesItems]);
+    console.log("loaded ", loaded);
+    if (loaded !== undefined) {
+      setmessages([...loaded]);
+    }
+  }, [MessagesRedux, getRecentMessageAfterChange]);
 
   return (
     <Stack>
@@ -138,7 +143,14 @@ export default function Messagelayout() {
               display: "flex",
             }}
           >
-            <Avatar src="dfgdf" slt="sdgd" />
+            <Avatar
+              src={
+                friendInfo.avatarFileName !== ""
+                  ? `${baseURL}/pic/avatar/${friendInfo.avatarFileName}`
+                  : null
+              }
+              slt="sdgd"
+            />
             <Typography
               sx={{
                 ml: 2,
@@ -165,7 +177,7 @@ export default function Messagelayout() {
       />
       <Stack
         sx={{
-          height: "76vh",
+          height: "72vh",
           width: 635,
           overflowX: "hidden",
           overflowY: "scroll",
@@ -185,14 +197,21 @@ export default function Messagelayout() {
           </IconButton>
         </Box>
 
-        {messages.length === 0 ? (
+        {messages?.length === 0 ? (
           <div>Oops,no more messages</div>
         ) : (
-          messages.map((msg, i) => {
-            console.log(msg.auth);
-            if (msg.auth === `${infoUser.firstName} ${infoUser.lastName}`) {
+          messages?.map((msg, i) => {
+            // console.log(msg.auth);
+            if (msg.auth === `${user._id}`) {
               return (
-                <MessageUser key={i} containerRef={containerRef} id={msg._id} />
+                <MessageUser
+                  key={i}
+                  containerRef={containerRef}
+                  id={msg._id}
+                  type={msg.messageType}
+                  content={msg.content}
+                  mediaFileName={msg?.mediaId}
+                />
               );
             } else {
               return (
@@ -200,7 +219,9 @@ export default function Messagelayout() {
                   key={i}
                   containerRef={containerRef}
                   id={msg._id}
-                  type={msg.type}
+                  type={msg.messageType}
+                  content={msg.content}
+                  mediaFileName={msg?.mediaId}
                 />
               );
             }

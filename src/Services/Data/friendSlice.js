@@ -4,7 +4,7 @@ let initialState = {
     _id: '2',
     lastName: 'Joe',
     firstName: 'Doe',
-    avatarId: '15',
+    avatarFileName: '',
     email: 'joe@gmail.com',
     bio: 'lorem lorem lorem',
 

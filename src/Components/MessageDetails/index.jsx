@@ -2,6 +2,7 @@ import { Avatar, Box, Divider, List, Stack, Typography } from "@mui/material";
 
 import React from "react";
 import { useSelector } from "react-redux";
+import { baseURL } from "../../Config/server";
 import MediaAccordion from "../Accordion";
 import MemberAccordion from "../Accordion/MemberAccordion";
 
@@ -32,7 +33,11 @@ export default function MessageDetails() {
         }}
       >
         <Avatar
-          src="broken"
+          src={
+            friendInfo.avatarFileName !== ""
+              ? `${baseURL}/pic/avatar/${friendInfo.avatarFileName}`
+              : null
+          }
           alt={
             friendInfo.hasOwnProperty("lastName")
               ? `${friendInfo.lastName} ${friendInfo.firstName}`
@@ -41,14 +46,22 @@ export default function MessageDetails() {
           sx={{
             width: 100,
             height: 100,
+            mb: 1,
           }}
         />
-        <Typography variant="h3">
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+          }}
+        >
           {friendInfo.hasOwnProperty("lastName")
             ? `${friendInfo.lastName} ${friendInfo.firstName}`
             : "NO friend"}
         </Typography>
-        <p>{friendInfo.hasOwnProperty("bio") ? `${friendInfo.bio} ` : null}</p>
+        <div>
+          {friendInfo.hasOwnProperty("email") ? `${friendInfo.email} ` : null}
+        </div>
       </Box>
       <List
         sx={{ height: "100%", overflowY: "scroll" }}

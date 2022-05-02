@@ -19,7 +19,7 @@ export function generateDefaultMessage(userId, friendId) {
  */
 export function generateDefaultMedia(userId, friendId) {
     return {
-        _id: `media${friendId}`,
+        _id: `${friendId}`,
         access: [userId, friendId],
         collections: [
 

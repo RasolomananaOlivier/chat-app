@@ -1,11 +1,14 @@
 import { Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RemoveAccountDialog } from "../../Components/AlertDialog";
+import { updateAccount } from "../../Services/Api/updateAccount";
+import { updateAllUserData } from "../../Services/Data/infoSlice";
 
 function Setting() {
   const userInfo = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   /* Show dialog */
   const [open, setOpen] = useState(false);
@@ -18,9 +21,6 @@ function Setting() {
   };
 
   const [updated, setupdated] = useState(false);
-  const updateHandler = () => {
-    setupdated(true);
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -28,6 +28,21 @@ function Setting() {
       firstName: userInfo.firstName,
       email: userInfo.email,
       bio: userInfo.bio,
+    },
+    onSubmit: (values) => {
+      const data = {
+        _id: userInfo._id,
+        ...values,
+      };
+      updateAccount(data)
+        .then((result) => {
+          console.log("after update", result);
+          dispatch(updateAllUserData(result));
+          setupdated(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   });
   return (
@@ -91,7 +106,11 @@ function Setting() {
             Successfully updated
           </Button>
         ) : (
-          <Button variant="contained" color="primary" onClick={updateHandler}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={formik.handleSubmit}
+          >
             Update
           </Button>
         )}

@@ -17,7 +17,7 @@ const inativeButton = {
 
 export default function IconLabelTabs({ setValue, value }) {
   const handleChange = (event, newValue) => {
-    console.log(newValue);
+    // console.log(newValue);
     setValue(newValue);
   };
 
@@ -33,14 +33,14 @@ export default function IconLabelTabs({ setValue, value }) {
     let count = [];
     messagesArray.forEach((msg) => {
       if (!msg.read) {
-        console.log(msg);
+        // console.log(msg);
         count.push(msg);
       }
     });
     return count;
   }, [messagesArray]);
 
-  console.log(unreadMessages);
+  // console.log(unreadMessages);
 
   return (
     <Tabs

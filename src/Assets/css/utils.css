@@ -1,3 +1,7 @@
+.disable-scrollbar {
+    scrollbar-width: none;
+}
+
 .disable-scrollbar::-webkit-scrollbar {
     display: none;
 }
@@ -17,20 +21,17 @@
 }
 
 .background-signup {
-    background-image: url('../img/Calagus\ Islands.jpg');
+    background-image: url('../img/ce9f2a54c700d2931e87571d185429d3.jpg');
 
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.background-password {
-    background-image: url('../img/salle-de-restauration.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+.last-message {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
 
-.background-bio {
-    background-image: url('../img/some-crocs-at-the-croc.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
 }

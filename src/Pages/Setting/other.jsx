@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import Underconstruction from "../../Assets/img/underContrustion.svg";
+import Underconstruction from "../../Assets/img/underconstruction.jpg";
 
 export default function Other() {
   return (
@@ -12,7 +12,7 @@ export default function Other() {
         width: "100%",
       }}
     >
-      <img src={Underconstruction} alt="" width={200} height={200} />
+      <img src={Underconstruction} alt="" width={300} height={300} />
       <div>Oops ! Still underconstruction .</div>
     </Box>
   );

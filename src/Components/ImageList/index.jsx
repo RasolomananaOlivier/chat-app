@@ -5,6 +5,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import pic1 from "./1.jpg";
 
 import { useSelector } from "react-redux";
+import { baseURL } from "../../Config/server";
 
 export default function StandardImageList({ id }) {
   const [ListofImage, setListofImage] = React.useState([]);
@@ -23,7 +24,7 @@ export default function StandardImageList({ id }) {
 
   return (
     <ImageList
-      sx={{ width: 260, height: 120 }}
+      sx={{ width: 260, height: "40vh" }}
       cols={2}
       rowHeight={164}
       className="disable-scrollbar"
@@ -33,9 +34,9 @@ export default function StandardImageList({ id }) {
       ) : (
         ListofImage.map((image) => {
           return (
-            <ImageListItem key={image.mediaID}>
+            <ImageListItem key={image.mediaId}>
               <img
-                src={pic1}
+                src={`${baseURL}/pic/avatar/${image.mediaId}`}
                 srcSet={`?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                 alt={"sdf"}
                 loading="lazy"

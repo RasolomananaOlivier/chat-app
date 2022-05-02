@@ -6,6 +6,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { SocketContext } from "../../Config/socket";
 
 export function RemoveAccountDialog({ open, handleClose }) {
   const navigate = useNavigate();
@@ -56,8 +58,13 @@ export function RemoveAccountDialog({ open, handleClose }) {
 
 export default function AlertDialog({ open, handleClose }) {
   const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const socket = React.useContext(SocketContext);
   /* Handler for user logout */
   const handleLogout = () => {
+    localStorage.removeItem(`messages-${user._id}`);
+    localStorage.removeItem("persist:root");
+    socket.emit("LOG_OUT", user._id);
     navigate("/");
   };
   return (

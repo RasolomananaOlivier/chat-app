@@ -7,9 +7,19 @@ import { MessageMenu } from "../Menu";
 
 // Image
 import Media1 from "./2.jpg";
+import ModalImageViewer from "../ModalImageViewer";
+import { baseURL } from "../../Config/server";
+import { useSelector } from "react-redux";
 
-export default function MessageFriend({ containerRef, id, type }) {
+export default function MessageFriend({
+  containerRef,
+  id,
+  type,
+  content,
+  mediaFileName,
+}) {
   const [mouted, setmouted] = useState(false);
+  const friendInfo = useSelector((state) => state.friend);
   /* --- Show to menu more vertical --- */
   const [anchorEl, setAnchorEl] = useState(null);
   /*--- Get the reference ---*/
@@ -17,7 +27,12 @@ export default function MessageFriend({ containerRef, id, type }) {
     setAnchorEl(e.currentTarget);
   };
 
- 
+  /* Show Picture modal */
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     setmouted((prev) => !prev);
@@ -27,6 +42,7 @@ export default function MessageFriend({ containerRef, id, type }) {
     };
   }, [mouted]);
 
+  const [hovered, setHovered] = useState(false);
   return (
     <Box
       sx={{
@@ -34,13 +50,9 @@ export default function MessageFriend({ containerRef, id, type }) {
         mt: 2,
       }}
       ref={containerRef}
+      onMouseOver={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/*  <Slide
-        direction="left"
-        in={false}
-        container={containerRef.current}
-        unmountOnExit
-      > */}
       <Box
         sx={{
           display: "flex",
@@ -48,7 +60,11 @@ export default function MessageFriend({ containerRef, id, type }) {
         }}
       >
         <Avatar
-          src="broken"
+          src={
+            friendInfo.avatarFileName !== ""
+              ? `${baseURL}/pic/avatar/${friendInfo.avatarFileName}`
+              : null
+          }
           alt="you"
           sx={{
             m: 2,
@@ -56,7 +72,7 @@ export default function MessageFriend({ containerRef, id, type }) {
         />
         {type === "text" ? (
           <Paper
-            elevation={2}
+            elevation={0}
             sx={{
               maxWidth: 370,
               p: 1.5,
@@ -64,29 +80,47 @@ export default function MessageFriend({ containerRef, id, type }) {
               color: "white",
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Voluptatum, Lorem ipsum, dolor sit amet consectetur adipisicing
-            elit. A, at. ab.
+            {content}
           </Paper>
         ) : (
-          <Paper
-            elevation={3}
-            sx={{
-              maxWidth: 260,
-              p: 0.1,
+          <>
+            <Paper
+              elevation={0}
+              sx={{
+                maxWidth: 260,
+                p: 0,
 
-              color: "white",
-            }}
-          >
-            <img width={260} height="100%" src={Media1} alt={id} />;
-          </Paper>
+                color: "white",
+              }}
+            >
+              <img
+                width={260}
+                height="100%"
+                src={
+                  mediaFileName !== undefined || mediaFileName !== ""
+                    ? `${baseURL}/pic/avatar/${mediaFileName}`
+                    : null
+                }
+                alt={id}
+                onClick={() => setShowModal(true)}
+              />
+              ;
+            </Paper>
+            <ModalImageViewer
+              showModal={showModal}
+              handleCloseModal={handleCloseModal}
+            />
+          </>
         )}
 
-        <Box>
-          <IconButton onClick={showMenu}>
-            <MoreVert sx={{ color: "ThreeDDarkShadow" }} />
-          </IconButton>
-        </Box>
+        {hovered ? (
+          <Box>
+            <IconButton onClick={showMenu}>
+              <MoreVert sx={{ color: "ThreeDDarkShadow" }} />
+            </IconButton>
+          </Box>
+        ) : null}
+
         <MessageMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} id={id} />
       </Box>
       {/* </Slide> */}

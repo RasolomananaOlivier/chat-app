@@ -10,25 +10,12 @@ let initialState = {
             auth: 'oli2',
 
             type: 'media',
-            mediaId: 'media2',
+            mediaId: '',
 
             content: 'loremsdfsdfsdsf',
             timeStamp: '2 jan 2022'
         },
-        {
-            _id: '3',
-            auth: 'Olivier Ras',
-            type: 'text',
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        },
-        {
-            _id: '4',
-            auth: 'oli2',
-            type: 'text',
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        },
+
         {
             _id: '5',
             auth: 'oli2',
@@ -57,59 +44,7 @@ let initialState = {
             content: 'loremsdfsdfsdsf',
             timeStamp: '2 jan 2022'
         },
-        {
-            _id: '9',
-            auth: 'Olivier Ras',
-            type: 'text',
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        }, {
-            _id: '10',
-            auth: 'Olivier Ras',
-            type: 'text',
 
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        }, {
-            _id: '11',
-            auth: 'oli2',
-            type: 'text',
-
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        }, {
-            _id: '12',
-            auth: 'Olivier Ras',
-            type: 'text',
-
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        }, {
-            _id: '13',
-            auth: 'Olivier Ras',
-
-            type: 'text',
-
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        },
-        {
-            _id: '14',
-            auth: 'Olivier Ras',
-
-            type: 'media',
-            mediaId: 'media2',
-            content: 'loremsdfsdfsdsf',
-            timeStamp: '2 jan 2022'
-        },
-        {
-            _id: '15',
-            auth: 'Joe Doe',
-            type: 'media',
-            mediaId: 'media2',
-            content: 'Again a some interested thino to show',
-            timeStamp: '2 jan 2022'
-        },
     ],
     more: 5,
     loadAll: false

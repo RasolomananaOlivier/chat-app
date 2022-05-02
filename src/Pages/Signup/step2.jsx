@@ -15,10 +15,13 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateTheUserPasswd } from "../../Services/Data/infoSlice";
 import { validatePassword } from "./validation";
 
 export default function Step2({ handleComplete, completed, activeStep }) {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -29,7 +32,8 @@ export default function Step2({ handleComplete, completed, activeStep }) {
       return validatePassword(values);
     },
     onSubmit: (values) => {
-      /* TODO : api/post */
+      let state = { passwd: values.confirmedPassword };
+      dispatch(updateTheUserPasswd(state));
       handleComplete();
     },
   });

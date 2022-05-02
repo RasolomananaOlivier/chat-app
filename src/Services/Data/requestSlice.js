@@ -6,7 +6,7 @@ let initialState = [
         _id: '5',
         lastName: 'Jimmy',
         firstName: 'Doe',
-        avatarId: '16',
+        avatarFileName: '',
         email: 'jimmy@gmail.com',
         bio: 'I am jimmy',
 
@@ -15,7 +15,7 @@ let initialState = [
         _id: '6',
         lastName: 'Eren',
         firstName: 'Doe',
-        avatarId: '16',
+        avatarFileName: '',
         email: 'jimmy@gmail.com',
         bio: 'I am jimmy',
 
@@ -37,11 +37,18 @@ const requestSlice = createSlice({
             });
 
             return updated;
+        },
+        addRequestFriend: (state, action) => {
+            return action.payload;
+
+        },
+        fetchRequestFromTheServer: (state, action) => {
+            return action.payload;
         }
 
     }
 })
 
-export const { deleteRequestFriend } = requestSlice.actions
+export const { addRequestFriend, deleteRequestFriend, fetchRequestFromTheServer } = requestSlice.actions
 
 export default requestSlice.reducer;

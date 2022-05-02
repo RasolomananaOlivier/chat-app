@@ -27,19 +27,25 @@ const notificationSlice = createSlice({
     initialState,
     name: 'notificationsCollection',
     reducers: {
-        removeNotification: (state,action) => {
+        removeNotification: (state, action) => {
             let updated = []
             state.forEach(notification => {
-                if(notification._id !== action.payload){
+                if (notification._id !== action.payload) {
                     updated.push(notification)
                 }
             })
             return updated;
+        },
+        addNotification: (state, action) => {
+            state.push(action.payload)
+        },
+        fetchNotificationsFromTheServer: (state, action) => {
+            return action.payload;
         }
     }
 
 })
 
-export const { removeNotification } = notificationSlice.actions
+export const { addNotification, removeNotification, fetchNotificationsFromTheServer } = notificationSlice.actions
 
 export default notificationSlice.reducer;

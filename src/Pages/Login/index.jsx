@@ -13,6 +13,18 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Background from "../../Assets/img/Calagus Islands.jpg";
+import { useFormik } from "formik";
+import { validateLogin } from "../Signup/validation";
+import { login } from "../../Services/Api/login";
+import { useDispatch } from "react-redux";
+import { updateAllUserData } from "../../Services/Data/infoSlice";
+import { useNavigate } from "react-router-dom";
+import { fetchingTheFriendsCollections } from "../../Services/Data/friendscollectionsSlice";
+import { fetchNotificationsFromTheServer } from "../../Services/Data/notificationSlice";
+import { fetchRequestFromTheServer } from "../../Services/Data/requestSlice";
+// import ReactGlobe from "react-globe";
+
+// The interactive globe
 
 function Copyright(props) {
   return (
@@ -35,14 +47,41 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Signup() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+
+      email: "",
+    },
+    validate: (values) => {
+      return validateLogin(values);
+    },
+    onSubmit: (values) => {
+      login(values)
+        .then((response) => {
+          console.log(response);
+          if (response.isRegistered) {
+            dispatch(updateAllUserData(response.user));
+            dispatch(
+              fetchingTheFriendsCollections(response.user.friendsCollections)
+            );
+            dispatch(
+              fetchNotificationsFromTheServer(
+                response.user.notificationsCollections
+              )
+            );
+            dispatch(fetchRequestFromTheServer(response.user.requests));
+            navigate("/home");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -54,6 +93,8 @@ export default function Signup() {
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7}>
           <img src={Background} style={{ height: "100vh" }} alt="" srcset="" />
+          {/*           <ReactGlobe />
+           */}{" "}
         </Grid>
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -75,7 +116,7 @@ export default function Signup() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={formik.handleSubmit}
               sx={{ mt: 1 }}
             >
               <TextField
@@ -87,6 +128,17 @@ export default function Signup() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                error={
+                  formik.touched.email && formik.errors.email ? true : false
+                }
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                helperText={
+                  formik.touched && formik.errors.email
+                    ? `${formik.errors.email}`
+                    : null
+                }
               />
               <TextField
                 margin="normal"
@@ -97,6 +149,19 @@ export default function Signup() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                error={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : false
+                }
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                helperText={
+                  formik.touched && formik.errors.password
+                    ? `${formik.errors.password}`
+                    : null
+                }
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}

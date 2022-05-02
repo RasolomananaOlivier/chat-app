@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 /* MUI Component */
-import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import styled from "@emotion/styled";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
-import Button from "@mui/material/Button";
 import VerticalTabs from "../VerticalTabs";
+import { useSelector } from "react-redux";
+import { baseURL } from "../../Config/server";
+import { SocketContext } from "../../Config/socket";
 
 /* Item style */
 const Item = styled(Paper)(({ theme }) => ({
@@ -29,6 +30,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 function SideNavigation() {
+  const user = useSelector((state) => state.user);
+
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    socket.emit("USER_CONNECTED", user._id);
+  }, []);
   return (
     <Stack sx={{ height: "100vh", bgcolor: "rgb(25, 25, 80)" }}>
       <Box
@@ -42,7 +50,15 @@ function SideNavigation() {
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           variant="dot"
         >
-          <Avatar alt="Remy Sharp" src="" sx={{ width: 50, height: 50 }} />
+          <Avatar
+            alt="Remy Sharp"
+            src={
+              user.avatarFileName !== ""
+                ? `${baseURL}/pic/avatar/${user.avatarFileName}`
+                : null
+            }
+            sx={{ width: 50, height: 50 }}
+          />
         </StyledBadge>
       </Box>
 

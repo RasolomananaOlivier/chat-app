@@ -2,11 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Box, Paper, Avatar, Slide, IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import { MessageMenu2 } from "../Menu";
+import ModalImageViewer from "../ModalImageViewer";
+import Media1 from "../../Assets/img/billing-background-balance.png";
+import { baseURL } from "../../Config/server";
 
-export default function MessageUser({ containerRef, id }) {
+export default function MessageUser({
+  containerRef,
+  id,
+  content,
+  type,
+  mediaFileName,
+}) {
   const [mouted, setmouted] = useState(false);
   /* --- Show menu --- */
   const [anchorEl, setAnchorEl] = useState(null);
+
+  /* Show Picture modal */
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   /* --- Get the current target of the button --- */
   const showMenu = (e) => {
     console.log(e.currentTarget);
@@ -20,19 +37,17 @@ export default function MessageUser({ containerRef, id }) {
     };
   }, []);
 
+  const [hovered, setHovered] = useState(false);
+
   return (
     <Box
       sx={{
         width: "100%",
         mt: 2,
       }}
+      onMouseOver={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
-      {/* <Slide
-        direction="right"
-        in={mouted}
-        container={containerRef?.current}
-        unmountOnExit
-      > */}
       <Box
         sx={{
           display: "flex",
@@ -40,33 +55,60 @@ export default function MessageUser({ containerRef, id }) {
           mr: 1.9,
         }}
       >
-        <Box>
-          <IconButton onClick={showMenu}>
-            <MoreVert sx={{ color: "ThreeDDarkShadow" }} />
-          </IconButton>
-        </Box>
+        {hovered ? (
+          <Box>
+            <IconButton onClick={showMenu}>
+              <MoreVert sx={{ color: "ThreeDDarkShadow" }} />
+            </IconButton>
+          </Box>
+        ) : null}
+
         {/* Show the message menu */}
         <MessageMenu2 anchorEl={anchorEl} setAnchorEl={setAnchorEl} id={id} />
 
-        <Paper
-          elevation={2}
-          sx={{
-            maxWidth: 370,
-            p: 1.5,
-          }}
-        >
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum,
-          ab.
-        </Paper>
-        <Avatar
-          src="broken"
-          alt="you"
-          sx={{
-            m: 2,
-          }}
-        />
+        {type === "text" ? (
+          <Paper
+            elevation={0}
+            sx={{
+              maxWidth: 370,
+
+              p: 1.5,
+            }}
+          >
+            {content}
+          </Paper>
+        ) : (
+          <>
+            <Paper
+              elevation={0}
+              sx={{
+                maxWidth: 260,
+                p: 0,
+
+                color: "white",
+              }}
+            >
+              <img
+                width={260}
+                height="100%"
+                src={
+                  mediaFileName !== undefined || mediaFileName !== ""
+                    ? `${baseURL}/pic/avatar/${mediaFileName}`
+                    : null
+                }
+                alt={id}
+                onClick={() => setShowModal(true)}
+              />
+              ;
+            </Paper>
+            <ModalImageViewer
+              showModal={showModal}
+              handleCloseModal={handleCloseModal}
+              mediaFileName={mediaFileName}
+            />
+          </>
+        )}
       </Box>
-      {/*  </Slide> */}
     </Box>
   );
 }

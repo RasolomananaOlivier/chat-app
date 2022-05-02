@@ -1,14 +1,90 @@
 import { Box, Grid, Stack, TextField, Typography, Button } from "@mui/material";
-import React from "react";
+import { useFormik } from "formik";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { signup } from "../../Services/Api/signup";
+import { upload } from "../../Services/Api/uploadAvatar";
+import { updateAllUserData } from "../../Services/Data/infoSlice";
+import { fetchingTheFriendsCollections } from "../../Services/Data/friendscollectionsSlice";
+import { fetchNotificationsFromTheServer } from "../../Services/Data/notificationSlice";
+import { fetchRequestFromTheServer } from "../../Services/Data/requestSlice";
 
 export default function Step3() {
+  // STATE FOR SELECTED FILES
+  const [selectedFiles, setselectedFiles] = useState(undefined);
+
+  // HANDLE THE FILE SELECTED
+  const selectFile = (e) => setselectedFiles(e.target.files);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      bio: "",
+    },
+
+    onSubmit: (values) => {
+      if (selectedFiles.length > 0) {
+        console.log(selectedFiles);
+        const formData = new FormData();
+        formData.append("avatar", selectedFiles[0]);
+
+        upload(formData)
+          .then((result) => {
+            console.log(result);
+            if (result.isUpload) {
+              console.log(">>", user);
+              const newUser = {
+                ...user,
+                avatarFileName: result.avatarFileName,
+                bio: values.bio,
+              };
+
+              signup(newUser)
+                .then((response) => {
+                  console.log("final response", response);
+                  dispatch(updateAllUserData(response.user));
+                  dispatch(
+                    fetchingTheFriendsCollections(
+                      response.user.friendsCollections
+                    )
+                  );
+                  dispatch(
+                    fetchNotificationsFromTheServer(
+                      response.user.notificationsCollections
+                    )
+                  );
+                  dispatch(fetchRequestFromTheServer(response.user.requests));
+                  if (response.isRegistered) {
+                    navigate("/home");
+                  }
+                })
+                .catch((err2) => {
+                  console.log(err2);
+                });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+  });
+
   return (
     <Stack>
       <Box sx={{ my: 4 }}>
         <Typography variant="body2">Step 3/3</Typography>
         <Typography variant="h4">Avatar and Biography</Typography>
       </Box>
-      <Grid container>
+      <Grid
+        container
+        component="form"
+        noValidate
+        onSubmit={formik.handleSubmit}
+      >
         <Grid item lg={12} sx={{ pr: 2, mb: 5 }}>
           <TextField
             label="Bio"
@@ -16,6 +92,8 @@ export default function Step3() {
             multiline
             rows={5}
             fullWidth
+            value={formik.values.bio}
+            onChange={formik.handleChange}
           />
         </Grid>
         <Grid
@@ -34,6 +112,7 @@ export default function Step3() {
               style={{ display: "none" }}
               id="raised-button-file"
               type="file"
+              onChange={selectFile}
             />
           </Button>
         </Grid>
@@ -42,7 +121,9 @@ export default function Step3() {
           lg={12}
           sx={{ pr: 2, mb: 5, display: "flex", justifyContent: "flex-end" }}
         >
-          <Button variant="contained">Completed</Button>
+          <Button variant="contained" type="submit">
+            Completed
+          </Button>
         </Grid>
       </Grid>
     </Stack>

@@ -40,7 +40,7 @@ function About() {
           bottom: 20,
           left: 40,
           p: 4,
-          width: "80vw",
+          width: "75vw",
         }}
       >
         <Grid container>
@@ -71,7 +71,7 @@ function About() {
           <Grid>
             <img
               width={420}
-              height={450}
+              height={420}
               src={Representation}
               alt="Representation"
             />

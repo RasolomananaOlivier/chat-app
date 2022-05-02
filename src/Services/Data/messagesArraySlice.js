@@ -179,7 +179,7 @@ let initialState = [
                 _id: '714',
                 auth: 'oli2',
                 type: 'media',
-                mediaId: 'media3',
+                mediaId: '',
                 timeStamp: '2 jan 2022',
 
             },
@@ -244,7 +244,7 @@ let initialState = [
                 auth: 'Olivier Ras',
                 type: 'media',
 
-                mediaId: 'media3',
+                mediaId: '',
                 timeStamp: '2 jan 2022',
 
             },
@@ -282,12 +282,27 @@ const messagesArraySlice = createSlice({
                 ...action.payload
             ];
         },
-        addOneCollection: (state, action) => {
+        addOneMessageCollection: (state, action) => {
             state.push(action.payload);
-        }
+        },
+        addOneMessageToOneCollection: (state, action) => {
+            let updated = [];
+
+            state.forEach(collection => {
+                if (collection._id === action.payload._id) {
+                    updated.push(action.payload);
+                } else {
+                    updated.push(collection);
+                }
+            })
+            return updated;
+        },
+        fetchMessageCollectionFromServer: (state, action) => {
+            return action.payload;
+        },
     }
 })
 
-export const { updateAfterReading, addOneCollection } = messagesArraySlice.actions;
+export const { fetchMessageCollectionFromServer, updateAfterReading, addOneMessageCollection, addOneMessageToOneCollection } = messagesArraySlice.actions;
 
 export default messagesArraySlice.reducer;

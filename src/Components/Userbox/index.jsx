@@ -15,15 +15,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateMessageUI } from "../../Services/Data/messageSlice";
 import { updateMedias } from "../../Services/Data/mediaSlice";
 import { updateFriendData } from "../../Services/Data/friendSlice";
-import {
-  addOneCollection,
-  updateAfterReading,
-} from "../../Services/Data/messagesArraySlice";
+import { updateAfterReading } from "../../Services/Data/messagesArraySlice";
 import {
   generateDefaultMedia,
   generateDefaultMessage,
 } from "../../Services/Data/default";
 import { addOneMedia } from "../../Services/Data/allMediasSlice";
+import { baseURL } from "../../Config/server";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
@@ -56,8 +54,18 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   },
 }));
+const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    width: 10,
+    height: 10,
+    backgroundColor: "#B70015",
+    color: "#B7001B",
+    borderRadius: "50%",
+    boxShadow: `0 0 0 2px rgba(255,255,255,0.2)`,
+  },
+}));
 
-export default function Userbox({ active, name, id }) {
+export default function Userbox({ active, name, id, avatarFileName, online }) {
   const [myLastMessage, setMyLastMessage] = useState(null);
   const [read, setread] = useState(false);
 
@@ -84,12 +92,14 @@ export default function Userbox({ active, name, id }) {
      * And update the messages store
      */
     const result = findOne(listMessages, id);
-    if (result !== undefined) {
+    localStorage.setItem(`messages-${infoUser._id}`, JSON.stringify(result));
+    dispatch(updateMessageUI(result));
+    /* if (result !== undefined) {
       dispatch(updateMessageUI(result));
     } else {
-      dispatch(updateMessageUI(generateDefaultMessage(infoUser._id, id)));
-      dispatch(addOneCollection(generateDefaultMessage(infoUser._id, id)));
-    }
+      dispatch(updateMessageUI(result));
+      
+    } */
 
     /**
      * Find the media relative to the id
@@ -99,8 +109,7 @@ export default function Userbox({ active, name, id }) {
     if (correctMedia !== undefined) {
       dispatch(updateMedias(correctMedia));
     } else {
-      dispatch(updateMedias(generateDefaultMedia(infoUser._id, id)));
-      dispatch(addOneMedia(generateDefaultMedia(infoUser._id, id)));
+      console.log(">correct media ", correctMedia);
     }
 
     /**
@@ -130,8 +139,9 @@ export default function Userbox({ active, name, id }) {
       const lastMessage = items[items.length - 1];
       setMyLastMessage(lastMessage?.content);
     }
-  }, []);
+  }, [messageHavingTheId]);
 
+  console.log("online??", online);
   return (
     <>
       <ListItemButton
@@ -147,13 +157,37 @@ export default function Userbox({ active, name, id }) {
         onClick={handleClick}
       >
         <ListItemAvatar>
-          <StyledBadge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          >
-            <Avatar src={"sfs"} alt={name} />
-          </StyledBadge>
+          {online ? (
+            <StyledBadge
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Avatar
+                src={
+                  avatarFileName !== ""
+                    ? `${baseURL}/pic/avatar/${avatarFileName}`
+                    : null
+                }
+                alt={name}
+              />
+            </StyledBadge>
+          ) : (
+            <StyledBadgeOffline
+              overlap="circular"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              variant="dot"
+            >
+              <Avatar
+                src={
+                  avatarFileName !== ""
+                    ? `${baseURL}/pic/avatar/${avatarFileName}`
+                    : null
+                }
+                alt={name}
+              />
+            </StyledBadgeOffline>
+          )}
         </ListItemAvatar>
         <ListItemText
           primary={
@@ -177,7 +211,7 @@ export default function Userbox({ active, name, id }) {
                 variant="body2"
                 color="text.primary"
               >
-                {myLastMessage}
+                <div className="last-message">{myLastMessage}</div>
               </Typography>
             </>
           }

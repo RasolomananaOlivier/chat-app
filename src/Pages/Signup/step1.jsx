@@ -12,6 +12,9 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { validateSignup } from "./validation";
+import { signup } from "../../Services/Api/signup";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTheUserInfo } from "../../Services/Data/infoSlice";
 
 export default function Step1({
   handleComplete,
@@ -19,6 +22,8 @@ export default function Step1({
   completed,
   getSignUp,
 }) {
+  // const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -30,7 +35,17 @@ export default function Step1({
       return validateSignup(values);
     },
     onSubmit: (values) => {
-      /* TODO : api/post */
+      const { firstName, lastName, birthday, email } = values;
+
+      let initialState = {
+        firstName: firstName,
+        lastName: lastName,
+
+        email: email,
+
+        birthday: birthday,
+      };
+      dispatch(updateTheUserInfo(initialState));
       handleComplete();
     },
   });

@@ -69,10 +69,25 @@ const mediasCollectionsSlice = createSlice({
     reducers: {
         addOneMedia: (state, action) => {
             state.push(action.payload);
-        }
+        },
+        addOneMediaIdToOneMediaCollection: (state, action) => {
+            let updated = [];
+
+            state.forEach(collection => {
+                if (collection._id === action.payload._id) {
+                    updated.push(action.payload);
+                } else {
+                    updated.push(collection);
+                }
+            })
+            return updated;
+        },
+        fetchMediasCollectionsFromTheServer: (state, action) => {
+            return action.payload;
+        },
     }
 })
 
-export const { addOneMedia } = mediasCollectionsSlice.actions;
+export const { addOneMedia, addOneMediaIdToOneMediaCollection, fetchMediasCollectionsFromTheServer } = mediasCollectionsSlice.actions;
 
 export default mediasCollectionsSlice.reducer;
