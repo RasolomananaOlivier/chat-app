@@ -102,6 +102,9 @@ export default function MessageFriend({
                     : null
                 }
                 alt={id}
+                style={{
+                  borderRadius: "20px",
+                }}
                 onClick={() => setShowModal(true)}
               />
               ;
