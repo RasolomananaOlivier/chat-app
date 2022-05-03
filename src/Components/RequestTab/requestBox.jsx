@@ -41,9 +41,9 @@ export default function RequestBox({
     <ListItem
       alignItems="flex-start"
       sx={{
-        bgcolor: "rgba(32, 38, 147)",
+        bgcolor: "rgba(40, 60, 147)",
         p: 1.5,
-        borderRadius: 1,
+        borderRadius: 3,
       }}
     >
       <ListItemAvatar>
@@ -105,9 +105,9 @@ export function SuggestionBox({ id, name, avatarFileName, details, email }) {
     <ListItem
       alignItems="flex-start"
       sx={{
-        bgcolor: "rgba(32, 38, 147)",
+        bgcolor: "#2230EA",
         p: 1.5,
-        borderRadius: 1,
+        borderRadius: 3,
       }}
     >
       <ListItemAvatar>

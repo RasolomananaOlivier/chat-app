@@ -146,7 +146,7 @@ export default function Userbox({ active, name, id, avatarFileName, online }) {
             ? "linear-gradient(60deg,#ed1845, #22a6df)"
             : null,
           bgcolor: "rgba(32, 38, 147)",
-          borderRadius: 1,
+          borderRadius: 3,
           mb: 1,
         }}
         onClick={handleClick}

@@ -42,6 +42,7 @@ export default function MessageUser({
         sx={{
           display: "flex",
           justifyContent: "flex-end",
+          alignItems: "start",
           mr: 1.9,
         }}
       >
@@ -61,7 +62,8 @@ export default function MessageUser({
             elevation={0}
             sx={{
               maxWidth: 370,
-
+              backgroundColor: "#E5E2E2",
+              borderRadius: "10px",
               p: 1.5,
             }}
           >
@@ -87,6 +89,9 @@ export default function MessageUser({
                     : null
                 }
                 alt={id}
+                style={{
+                  borderRadius: "20px",
+                }}
                 onClick={() => setShowModal(true)}
               />
               ;

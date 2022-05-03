@@ -16,7 +16,7 @@ export default function NotificationBox({ id, content, timeStamp }) {
     dispatch(removeNotification(id));
   };
   return (
-    <ListItem sx={{ bgcolor: "rgba(32, 38, 147)" }}>
+    <ListItem sx={{ bgcolor: "#2230EA", borderRadius: 3 }}>
       <ListItemText
         primary={
           <Typography sx={{ color: "whitesmoke" }}>{content}</Typography>

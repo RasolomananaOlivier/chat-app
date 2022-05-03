@@ -55,6 +55,7 @@ export default function MessageFriend({
         sx={{
           display: "flex",
           justifyContent: "flex-start",
+          alignItems: "center",
         }}
       >
         <Avatar
@@ -76,6 +77,7 @@ export default function MessageFriend({
               p: 1.5,
               backgroundImage: "linear-gradient(60deg,#ed1845, #22a6df)",
               color: "white",
+              borderRadius: " 0 10px 10px 10px",
             }}
           >
             {content}
@@ -112,7 +114,11 @@ export default function MessageFriend({
         )}
 
         {hovered ? (
-          <Box>
+          <Box
+            sx={{
+              alignSelf: type === "text" ? "center" : "start",
+            }}
+          >
             <IconButton onClick={showMenu}>
               <MoreVert sx={{ color: "ThreeDDarkShadow" }} />
             </IconButton>
