@@ -9,6 +9,8 @@ import { updateAllUserData } from "../../Services/Data/infoSlice";
 import { fetchingTheFriendsCollections } from "../../Services/Data/friendscollectionsSlice";
 import { fetchNotificationsFromTheServer } from "../../Services/Data/notificationSlice";
 import { fetchRequestFromTheServer } from "../../Services/Data/requestSlice";
+import { fadeIn } from "./slideIn";
+import { motion } from "framer-motion";
 
 export default function Step3() {
   // STATE FOR SELECTED FILES
@@ -74,58 +76,73 @@ export default function Step3() {
   });
 
   return (
-    <Stack>
-      <Box sx={{ my: 4 }}>
-        <Typography variant="body2">Step 3/3</Typography>
-        <Typography variant="h4">Avatar and Biography</Typography>
-      </Box>
-      <Grid
-        container
-        component="form"
-        noValidate
-        onSubmit={formik.handleSubmit}
-      >
-        <Grid item lg={12} sx={{ pr: 2, mb: 5 }}>
-          <TextField
-            label="Bio"
-            placeholder="Tell about yourself"
-            multiline
-            rows={5}
-            fullWidth
-            value={formik.values.bio}
-            onChange={formik.handleChange}
-          />
-        </Grid>
+    <motion.div
+      variants={fadeIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <Stack>
+        <Box sx={{ my: 4 }}>
+          <Typography variant="body2">Step 3/3</Typography>
+          <Typography variant="h4">Avatar and Biography</Typography>
+        </Box>
         <Grid
-          item
-          lg={12}
-          sx={{ pr: 2, mb: 5, display: "flex", justifyContent: "flex-start" }}
+          container
+          component="form"
+          noValidate
+          onSubmit={formik.handleSubmit}
         >
-          <Box sx={{ mx: 2, pt: 1 }}>
-            <label htmlFor="raised-button-file">Choose an avatar</label>
-          </Box>
-
-          <Button variant="contained" component="label">
-            Upload
-            <input
-              accept="image/*"
-              style={{ display: "none" }}
-              id="raised-button-file"
-              type="file"
-              onChange={selectFile}
+          <Grid item lg={12} sx={{ pr: 2, mb: 5 }}>
+            <TextField
+              label="Bio"
+              placeholder="Tell about yourself"
+              multiline
+              rows={5}
+              fullWidth
+              value={formik.values.bio}
+              onChange={formik.handleChange}
             />
-          </Button>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            sx={{ pr: 2, mb: 5, display: "flex", justifyContent: "flex-start" }}
+          >
+            <Box sx={{ mx: 2, pt: 1 }}>
+              <label htmlFor="raised-button-file">Choose an avatar</label>
+            </Box>
+
+            <Button variant="contained" component="label">
+              Upload
+              <input
+                accept="image/*"
+                style={{ display: "none" }}
+                id="raised-button-file"
+                type="file"
+                onChange={selectFile}
+              />
+            </Button>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            sx={{
+              pr: 2,
+              mb: 5,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button variant="contained" href="/login" hidden>
+              Back to sign in
+            </Button>
+            <Button variant="contained" type="submit">
+              Completed
+            </Button>
+          </Grid>
         </Grid>
-        <Grid
-          item
-          lg={12}
-          sx={{ pr: 2, mb: 5, display: "flex", justifyContent: "flex-end" }}
-        >
-          <Button variant="contained" type="submit">
-            Completed
-          </Button>
-        </Grid>
-      </Grid>
-    </Stack>
+      </Stack>
+    </motion.div>
   );
 }

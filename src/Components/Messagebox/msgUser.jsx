@@ -4,6 +4,7 @@ import { MoreVert } from "@mui/icons-material";
 import { MessageMenu2 } from "../Menu";
 import ModalImageViewer from "../ModalImageViewer";
 import { baseURL } from "../../Config/server";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function MessageUser({
   containerRef,
@@ -11,6 +12,7 @@ export default function MessageUser({
   content,
   type,
   mediaFileName,
+  time,
 }) {
   /* --- Show menu --- */
   const [anchorEl, setAnchorEl] = useState(null);
@@ -28,6 +30,13 @@ export default function MessageUser({
   };
 
   const [hovered, setHovered] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
+  const handleMouseLeave = () => {
+    setClicked(false);
+  };
 
   return (
     <Box
@@ -58,17 +67,37 @@ export default function MessageUser({
         <MessageMenu2 anchorEl={anchorEl} setAnchorEl={setAnchorEl} id={id} />
 
         {type === "text" ? (
-          <Paper
-            elevation={0}
-            sx={{
-              maxWidth: 370,
-              backgroundColor: "#E5E2E2",
-              borderRadius: "10px",
-              p: 1.5,
-            }}
-          >
-            {content}
-          </Paper>
+          <Box>
+            <Box
+              onClick={handleClick}
+              onMouseLeave={handleMouseLeave}
+              sx={{
+                maxWidth: 370,
+                backgroundColor: "#E5E2E2",
+                borderRadius: "10px",
+                p: 1.5,
+                cursor: "pointer",
+              }}
+            >
+              {content}
+            </Box>
+            <AnimatePresence>
+              {clicked ? (
+                <motion.div
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  style={{
+                    fontSize: 13,
+                    color: "#423F3F",
+                  }}
+                >
+                  {time}
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </Box>
         ) : (
           <>
             <Paper

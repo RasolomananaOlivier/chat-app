@@ -9,12 +9,15 @@ import { Grid } from "@mui/material";
 import Step1 from "../Pages/Signup/step1";
 import Step2 from "../Pages/Signup/step2";
 import Step3 from "../Pages/Signup/step3";
+import { AnimatePresence } from "framer-motion";
 
 const steps = ["Personal information", "Password", "Bio"];
 
 export default function HorizontalNonLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
+
+  console.log(completed, activeStep);
 
   const totalSteps = () => {
     return steps.length;
@@ -42,16 +45,17 @@ export default function HorizontalNonLinearStepper() {
     setActiveStep(newActiveStep);
   };
 
-  /* const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  }; */
-
+  /**
+   * TODO: retrieve the value when user get back
+   */
   const handleStep = (step) => () => {
     setActiveStep(step);
+    const newCompleted = completed;
+    newCompleted[step] = false;
+    setCompleted(newCompleted);
   };
 
   const handleComplete = () => {
-    console.log("handle comlete click");
     const newCompleted = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
@@ -76,7 +80,7 @@ export default function HorizontalNonLinearStepper() {
         ></Grid>
 
         <Grid item lg={8} sx={{ py: 5, px: 8 }}>
-          <Stepper nonLinear activeStep={activeStep}>
+          <Stepper activeStep={activeStep}>
             {steps.map((label, index) => (
               <Step key={label} completed={completed[index]}>
                 <StepButton color="inherit" onClick={handleStep(index)}>
@@ -100,50 +104,26 @@ export default function HorizontalNonLinearStepper() {
             ) : (
               <Box>
                 <Box sx={{ mt: 4, height: "25rem" }}>
-                  {activeStep === 0 ? (
-                    <Step1
-                      handleComplete={handleComplete}
-                      activeStep={activeStep}
-                      completed={completed}
-                    />
-                  ) : activeStep === 1 ? (
-                    <Step2
-                      handleComplete={handleComplete}
-                      activeStep={activeStep}
-                      completed={completed}
-                    />
-                  ) : (
-                    <Step3 />
-                  )}
+                  <AnimatePresence exitBeforeEnter>
+                    {activeStep === 0 ? (
+                      <Step1
+                        handleComplete={handleComplete}
+                        activeStep={activeStep}
+                        completed={completed}
+                      />
+                    ) : activeStep === 1 ? (
+                      <Step2
+                        handleComplete={handleComplete}
+                        activeStep={activeStep}
+                        completed={completed}
+                      />
+                    ) : (
+                      <Step3 />
+                    )}
+                  </AnimatePresence>
                 </Box>
                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  {/*  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                  >
-                    Back
-                  </Button> */}
                   <Box sx={{ flex: "1 1 auto" }} />
-                  {/* <Button onClick={handleNext} sx={{ mr: 1 }}>
-                    Next
-                  </Button> */}
-                  {/* {activeStep !== steps.length &&
-                    (completed[activeStep] ? (
-                      <Typography
-                        variant="caption"
-                        sx={{ display: "inline-block" }}
-                      >
-                        Step {activeStep + 1} already completed
-                      </Typography>
-                    ) : (
-                      <Button onClick={handleComplete}>
-                        {completedSteps() === totalSteps() - 1
-                          ? "Finish"
-                          : "Complete Step"}
-                      </Button>
-                    ))} */}
                 </Box>
               </Box>
             )}

@@ -22,9 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchingTheFriendsCollections } from "../../Services/Data/friendscollectionsSlice";
 import { fetchNotificationsFromTheServer } from "../../Services/Data/notificationSlice";
 import { fetchRequestFromTheServer } from "../../Services/Data/requestSlice";
-// import ReactGlobe from "react-globe";
-
-// The interactive globe
+import { motion } from "framer-motion";
 
 function Copyright(props) {
   return (
@@ -85,113 +83,126 @@ export default function Signup() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid
-        container
-        component="main"
-        sx={{ height: "100vh", overflowY: "hidden" }}
-      >
-        <CssBaseline />
-        <Grid item xs={false} sm={4} md={7}>
-          <img src={Background} style={{ height: "100vh" }} alt="" srcset="" />
-          {/*           <ReactGlobe />
-           */}{" "}
-        </Grid>
+      <motion.div>
+        <Grid
+          container
+          component="main"
+          sx={{ height: "100vh", overflowY: "hidden" }}
+        >
+          <CssBaseline />
+          <Grid item xs={false} sm={4} md={7}>
+            <img
+              src={Background}
+              style={{ height: "100vh" }}
+              alt=""
+              srcset=""
+            />
+          </Grid>
 
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 6,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            component={Paper}
+            elevation={6}
+            square
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
             <Box
-              component="form"
-              noValidate
-              onSubmit={formik.handleSubmit}
-              sx={{ mt: 1 }}
+              sx={{
+                my: 8,
+                mx: 6,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                error={
-                  formik.touched.email && formik.errors.email ? true : false
-                }
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                helperText={
-                  formik.touched && formik.errors.email
-                    ? `${formik.errors.email}`
-                    : null
-                }
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                error={
-                  formik.touched.password && formik.errors.password
-                    ? true
-                    : false
-                }
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                helperText={
-                  formik.touched && formik.errors.password
-                    ? `${formik.errors.password}`
-                    : null
-                }
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={formik.handleSubmit}
+                sx={{ mt: 1 }}
               >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  error={
+                    formik.touched.email && formik.errors.email ? true : false
+                  }
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched && formik.errors.email
+                      ? `${formik.errors.email}`
+                      : null
+                  }
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  error={
+                    formik.touched.password && formik.errors.password
+                      ? true
+                      : false
+                  }
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched && formik.errors.password
+                      ? `${formik.errors.password}`
+                      : null
+                  }
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Sign In
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/signup" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
             </Box>
-          </Box>
-        </Grid>
-      </Grid>
+          </Grid>
+        </Grid>{" "}
+      </motion.div>
     </ThemeProvider>
   );
 }

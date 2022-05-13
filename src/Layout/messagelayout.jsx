@@ -1,25 +1,42 @@
 import { Box, Avatar, IconButton, Divider, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import Stack from "@mui/material/Stack";
 import AccountMenu from "../Components/Menu";
-import { Menu, ReplayOutlined } from "@mui/icons-material";
+import { Menu } from "@mui/icons-material";
 import MessageUser from "../Components/Messagebox/msgUser";
 import MessageFriend from "../Components/Messagebox/mgsFriend";
 import SendField from "../Components/SendField";
 import { iconsStyleSmall } from "../Components/VerticalTabs";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  increaseMore,
-  resetMore,
-  toggleLoadAll,
-} from "../Services/Data/messageSlice";
+import { useSelector } from "react-redux";
+
 import { baseURL } from "../Config/server";
+import { AnimatePresence, motion } from "framer-motion";
+
+const messageFriendVariants = {
+  hidden: {
+    opacity: 0,
+    x: -100,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: { scale: 0, x: -200, transition: { duration: 0.2 } },
+};
+const userFriendVariants = {
+  hidden: {
+    opacity: 0,
+    x: 100,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: { scale: 0, x: 200, opacity: 0, transition: { duration: 0.2 } },
+};
 
 export default function Messagelayout() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  /* Message State */
-  const [messages, setmessages] = useState([]);
 
   /* -- Message data from redux -- */
   const MessagesRedux = useSelector((state) => state.messages);
@@ -27,48 +44,6 @@ export default function Messagelayout() {
 
   /* -- Get the current friend to render in the ui -- */
   const friendInfo = useSelector((state) => state.friend);
-
-  /* --- Get increse more reducer -- */
-  const dispatch = useDispatch();
-
-  /* --- Access the top most message -- */
-  const getRecentMessage = useCallback(() => {
-    let { items, more, loadAll } = MessagesRedux;
-    /* UnderFlow if Messages is empty */
-    if (items.length === 0) {
-      return "No more message";
-    }
-    let topFive = [];
-    let length = items.length - 1;
-
-    if (more <= length && !loadAll) {
-      for (let i = length; i > length - more; i--) {
-        topFive.unshift(items[i]);
-      }
-      // console.log(topFive);
-      return topFive;
-    } else if (more >= length && !loadAll) {
-      dispatch(toggleLoadAll());
-      return items;
-    } else if (more >= length && loadAll) {
-      return "No more message";
-    }
-    // eslint-disable-next-line
-  }, [MessagesRedux]);
-
-  /* Load more message */
-  const handleLoadMore = (e) => {
-    e.preventDefault();
-    dispatch(increaseMore());
-    console.log(">After increaase more", MessagesRedux.more);
-    const loadedMessages = getRecentMessage();
-    // console.log(loadedMessages);
-    if (loadedMessages === "No more message") {
-      alert(loadedMessages);
-    } else {
-      setmessages(loadedMessages);
-    }
-  };
 
   const showMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -78,53 +53,6 @@ export default function Messagelayout() {
    * Get the parent element to make to child slide in it
    */
   const containerRef = React.useRef(null);
-
-  const getRecentMessageAfterChange = useCallback(() => {
-    let { items, more, loadAll } = MessagesRedux;
-    /* UnderFlow if Messages is empty */
-    if (items?.length === 0) {
-      return [];
-    }
-    let topFive = [];
-    let length = items.length - 1;
-
-    if (more <= length && !loadAll) {
-      for (let i = length; i > length - more; i--) {
-        topFive.unshift(items[i]);
-      }
-
-      return topFive;
-    } else if (more >= length) {
-      console.log("items < 5", items);
-      dispatch(toggleLoadAll());
-      return items;
-    }
-    // eslint-disable-next-line
-  }, [MessagesRedux]);
-
-  /**
-   * On Component Mount
-   */
-  useEffect(() => {
-    const loaded = getRecentMessageAfterChange();
-    setmessages(loaded);
-
-    // console.log(">Store/friend ", friendInfo.hasOwnProperty("_id"));
-    return () => {
-      //   console.log("unmount");
-      dispatch(resetMore());
-    };
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    // console.log(MessagesItems);
-    const loaded = getRecentMessageAfterChange();
-    console.log("loaded ", loaded);
-    if (loaded !== undefined) {
-      setmessages([...loaded]);
-    }
-  }, [MessagesRedux, getRecentMessageAfterChange]);
 
   return (
     <Stack>
@@ -185,46 +113,62 @@ export default function Messagelayout() {
         ref={containerRef}
         className="disable-scrollbar"
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <IconButton onClick={handleLoadMore}>
-            <ReplayOutlined />
-          </IconButton>
-        </Box>
-
-        {messages?.length === 0 ? (
+        {MessagesRedux.items.length === 0 ? (
           <div>Oops,no more messages</div>
         ) : (
-          messages?.map((msg, i) => {
-            // console.log(msg.auth);
-            if (msg.auth === `${user._id}`) {
-              return (
-                <MessageUser
-                  key={i}
-                  containerRef={containerRef}
-                  id={msg._id}
-                  type={msg.messageType}
-                  content={msg.content}
-                  mediaFileName={msg?.mediaId}
-                />
-              );
-            } else {
-              return (
-                <MessageFriend
-                  key={i}
-                  containerRef={containerRef}
-                  id={msg._id}
-                  type={msg.messageType}
-                  content={msg.content}
-                  mediaFileName={msg?.mediaId}
-                />
-              );
-            }
-          })
+          <AnimatePresence>
+            {MessagesRedux.items.map((msg, index) => {
+              let previousMessageAuth;
+              if (index !== 0) {
+                previousMessageAuth = MessagesRedux.items[index - 1].auth;
+              }
+
+              /**
+               * TODO: Remove it
+               */
+              if (msg.auth === `${user._id}`) {
+                return (
+                  <motion.div
+                    key={msg._id}
+                    variants={userFriendVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                  >
+                    <MessageUser
+                      containerRef={containerRef}
+                      id={msg._id}
+                      type={msg.messageType}
+                      content={msg.content}
+                      mediaFileName={msg?.mediaId}
+                      sameAuth={msg.auth === previousMessageAuth}
+                      time={msg.timeStamp}
+                    />
+                  </motion.div>
+                );
+              } else {
+                return (
+                  <motion.div
+                    key={msg._id}
+                    variants={messageFriendVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                  >
+                    <MessageFriend
+                      containerRef={containerRef}
+                      id={msg._id}
+                      type={msg.messageType}
+                      content={msg.content}
+                      mediaFileName={msg?.mediaId}
+                      sameAuth={msg.auth === previousMessageAuth}
+                      time={msg.timeStamp}
+                    />
+                  </motion.div>
+                );
+              }
+            })}
+          </AnimatePresence>
         )}
       </Stack>
       <SendField />

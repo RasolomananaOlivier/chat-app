@@ -1,6 +1,6 @@
 import './index.css'
 import React from 'react';
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Setting from './Pages/Setting';
@@ -17,45 +17,50 @@ import HomeWithContext from './Pages/Home';
 import { PersistGate } from 'redux-persist/integration/react';
 import persistStore from 'redux-persist/es/persistStore';
 
+import { AnimatePresence } from 'framer-motion'
+
 
 let persistor = persistStore(store);
 
 function App() {
+  const location = useLocation();
+  console.log(location);
+  return (
 
-    return (
+    <div style={{ height: '100vh', margin: 0 }
+    } >
+      <Provider store={store} >
+        <PersistGate persistor={persistor} >
+          <AnimatePresence exitBeforeEnter >
+            <Routes location={location} key={location.key} >
+              <Route path='/' element={<Navigate to='/login' replace={true} />} />
+              <Route path='/login' element={<Login />} />
 
-        <div style={{ height: '100vh', margin: 0 }
-        } >
-            <Provider store={store} >
-                <PersistGate persistor={persistor} >
-                    <Routes >
-                        <Route path='/' element={<Navigate to='/login' replace={true} />} />
-                        <Route path='/login' element={<Login />} />
-                        <Route path='/signup' element={<Signup />}>
+              <Route path='/signup' element={<Signup />} />
 
-                        </Route>
+              <Route path='/home' element={<Layout />} >
+                <Route index element={<HomeWithContext />} />
+                <Route path='setting' element={<SettingLayout />} >
+                  <Route index element={<Setting />} />
+                  <Route path='security' element={<Security />} />
+                  <Route path='preference' element={<Preference />} />
+                  <Route path='other' element={<Other />} />
+                </Route>
+                <Route path='about' element={<About />} />
+              </Route>
+            </Routes>
+          </AnimatePresence>
 
-                        <Route path='/home' element={<Layout />} >
-                            <Route index element={<HomeWithContext />} />
-                            <Route path='setting' element={<SettingLayout />} >
-                                <Route index element={<Setting />} />
-                                <Route path='security' element={<Security />} />
-                                <Route path='preference' element={<Preference />} />
-                                <Route path='other' element={<Other />} />
-                            </Route>
-                            <Route path='about' element={<About />} />
-                        </Route>
-                    </Routes>
-                </PersistGate>
-
-
-            </Provider>
-
-
-        </div >
+        </PersistGate>
 
 
-    );
+      </Provider>
+
+
+    </div >
+
+
+  );
 
 
 }

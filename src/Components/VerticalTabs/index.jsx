@@ -38,8 +38,12 @@ export default function VerticalTabs() {
   const [value, setValue] = React.useState(0);
   /* --- Access to the current url path --*/
   let location = useLocation();
+  /**
+   * TODO: Fix the navigation
+   */
   const handleChange = (event, newValue) => {
     event.preventDefault();
+
     setValue(newValue);
     if (newValue === 0) {
       navigate("/home");
@@ -54,7 +58,7 @@ export default function VerticalTabs() {
   React.useEffect(() => {
     if (location.pathname === "/home") {
       setValue(0);
-    } else if (location.pathname === "/home/setting") {
+    } else if (location.pathname.includes("/home/setting")) {
       setValue(1);
     } else if (location.pathname === "/home/about") {
       setValue(2);
@@ -78,7 +82,6 @@ export default function VerticalTabs() {
     <Box
       sx={{
         flexGrow: 1,
-
         display: "flex",
       }}
     >

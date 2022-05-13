@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Paper, Avatar, IconButton } from "@mui/material";
+import { Box, Avatar, IconButton } from "@mui/material";
 
 import { MoreVert } from "@mui/icons-material";
 import { MessageMenu } from "../Menu";
@@ -8,6 +8,7 @@ import { MessageMenu } from "../Menu";
 import ModalImageViewer from "../ModalImageViewer";
 import { baseURL } from "../../Config/server";
 import { useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function MessageFriend({
   containerRef,
@@ -15,6 +16,8 @@ export default function MessageFriend({
   type,
   content,
   mediaFileName,
+  sameAuth,
+  time,
 }) {
   const [mouted, setmouted] = useState(false);
   const friendInfo = useSelector((state) => state.friend);
@@ -41,11 +44,18 @@ export default function MessageFriend({
   }, [mouted]);
 
   const [hovered, setHovered] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
+  const handleMouseLeave = () => {
+    setClicked(false);
+  };
   return (
     <Box
       sx={{
         width: 615,
-        mt: 2,
+        mt: !sameAuth ? 2 : 1,
       }}
       ref={containerRef}
       onMouseOver={() => setHovered(true)}
@@ -55,41 +65,70 @@ export default function MessageFriend({
         sx={{
           display: "flex",
           justifyContent: "flex-start",
-          alignItems: "center",
+          alignItems: "start",
         }}
       >
-        <Avatar
-          src={
-            friendInfo.avatarFileName !== ""
-              ? `${baseURL}/pic/avatar/${friendInfo.avatarFileName}`
-              : null
-          }
-          alt="you"
-          sx={{
-            m: 2,
-          }}
-        />
+        {!sameAuth ? (
+          <Box sx={{ pt: 1.3 }}>
+            <Avatar
+              src={
+                friendInfo.avatarFileName !== ""
+                  ? `${baseURL}/pic/avatar/${friendInfo.avatarFileName}`
+                  : null
+              }
+              alt="you"
+              sx={{
+                mx: 2,
+                alignSelf: "flex-end",
+              }}
+            />
+          </Box>
+        ) : null}
+
         {type === "text" ? (
-          <Paper
-            elevation={0}
-            sx={{
-              maxWidth: 370,
-              p: 1.5,
-              backgroundImage: "linear-gradient(60deg,#ed1845, #22a6df)",
-              color: "white",
-              borderRadius: " 0 10px 10px 10px",
-            }}
-          >
-            {content}
-          </Paper>
+          <Box>
+            <Box
+              onMouseOver={() => setHovered(true)}
+              onClick={handleClick}
+              onMouseLeave={handleMouseLeave}
+              sx={{
+                minWidth: 60,
+                maxWidth: 370,
+                backgroundImage: "linear-gradient(60deg,#ed1845, #22a6df)",
+                borderRadius: `10px 10px 10px ${!sameAuth ? "0" : "10px"}`,
+                p: 1.5,
+                cursor: "pointer",
+                color: "white",
+                ml: !sameAuth ? "0" : "4.6rem",
+              }}
+            >
+              {content}
+            </Box>
+            <AnimatePresence>
+              {clicked ? (
+                <motion.div
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  style={{
+                    marginLeft: !sameAuth ? "0" : "4.6rem",
+                    fontSize: 13,
+                    color: "#423F3F",
+                  }}
+                >
+                  {time}
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </Box>
         ) : (
           <>
-            <Paper
-              elevation={0}
+            <Box
               sx={{
                 maxWidth: 260,
                 p: 0,
-
+                ml: !sameAuth ? "0" : "4.6rem",
                 color: "white",
               }}
             >
@@ -108,7 +147,7 @@ export default function MessageFriend({
                 onClick={() => setShowModal(true)}
               />
               ;
-            </Paper>
+            </Box>
             <ModalImageViewer
               showModal={showModal}
               handleCloseModal={handleCloseModal}
@@ -119,7 +158,7 @@ export default function MessageFriend({
         {hovered ? (
           <Box
             sx={{
-              alignSelf: type === "text" ? "center" : "start",
+              alignSelf: type === "text" ? "start" : "start",
             }}
           >
             <IconButton onClick={showMenu}>
@@ -130,7 +169,6 @@ export default function MessageFriend({
 
         <MessageMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} id={id} />
       </Box>
-      {/* </Slide> */}
     </Box>
   );
 }

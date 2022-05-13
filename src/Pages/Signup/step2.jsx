@@ -14,9 +14,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
+import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateTheUserPasswd } from "../../Services/Data/infoSlice";
+import { fadeIn } from "./slideIn";
 import { validatePassword } from "./validation";
 
 export default function Step2({ handleComplete, completed, activeStep }) {
@@ -38,102 +40,122 @@ export default function Step2({ handleComplete, completed, activeStep }) {
     },
   });
   return (
-    <Stack>
-      <Box sx={{ my: 4 }}>
-        <Typography variant="body2">Step 2/3</Typography>
-        <Typography variant="h4">Password</Typography>
-      </Box>
-      <Grid
-        container
-        component="form"
-        noValidate
-        onSubmit={formik.handleSubmit}
-        sx={{ pr: 2 }}
-      >
-        <Grid item lg={12} sx={{ mb: 5 }}>
-          <FormControl fullWidth variant="outlined">
-            <InputLabel
-              htmlFor="outlined-adornment-password"
-              error={
-                formik.touched.password && formik.errors.password ? true : false
-              }
-              disabled={completed[activeStep] ? true : false}
-            >
-              Password
-            </InputLabel>
-            <OutlinedInput
-              name="password"
-              // Error
+    <motion.div
+      variants={fadeIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <Stack>
+        <Box sx={{ my: 4 }}>
+          <Typography variant="body2">Step 2/3</Typography>
+          <Typography variant="h4">Password</Typography>
+        </Box>
+        <Grid
+          container
+          component="form"
+          noValidate
+          onSubmit={formik.handleSubmit}
+          sx={{ pr: 2 }}
+        >
+          <Grid item lg={12} sx={{ mb: 5 }}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel
+                htmlFor="outlined-adornment-password"
+                error={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : false
+                }
+                disabled={completed[activeStep] ? true : false}
+              >
+                Password
+              </InputLabel>
+              <OutlinedInput
+                name="password"
+                // Error
 
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                disabled={completed[activeStep] ? true : false}
+                // Handler
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : false
+                }
+                // Icon
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+              <FormHelperText
+                error={
+                  formik.touched.password && formik.errors.password
+                    ? true
+                    : false
+                }
+                id="outlined-weight-helper-text"
+              >
+                {formik.touched.password && formik.errors.password
+                  ? `${formik.errors.password}`
+                  : null}
+              </FormHelperText>
+            </FormControl>
+          </Grid>
+          <Grid item lg={12} sx={{ mb: 5 }}>
+            <TextField
+              label="Confirm the password"
+              name="confirmedPassword"
+              type="password"
+              required
+              fullWidth
               disabled={completed[activeStep] ? true : false}
-              // Handler
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={
-                formik.touched.password && formik.errors.password ? true : false
+                formik.touched.confirmedPassword &&
+                formik.errors.confirmedPassword
+                  ? true
+                  : false
               }
-              // Icon
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
-                    edge="end"
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
+              helperText={
+                formik.touched.confirmedPassword &&
+                formik.errors.confirmedPassword
+                  ? `${formik.errors.confirmedPassword}`
+                  : null
               }
-              label="Password"
             />
-            <FormHelperText
-              error={
-                formik.touched.password && formik.errors.password ? true : false
-              }
-              id="outlined-weight-helper-text"
-            >
-              {formik.touched.password && formik.errors.password
-                ? `${formik.errors.password}`
-                : null}
-            </FormHelperText>
-          </FormControl>
-        </Grid>
-        <Grid item lg={12} sx={{ mb: 5 }}>
-          <TextField
-            label="Confirm the password"
-            name="confirmedPassword"
-            type="password"
-            required
-            fullWidth
-            disabled={completed[activeStep] ? true : false}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.confirmedPassword &&
-              formik.errors.confirmedPassword
-                ? true
-                : false
-            }
-            helperText={
-              formik.touched.confirmedPassword &&
-              formik.errors.confirmedPassword
-                ? `${formik.errors.confirmedPassword}`
-                : null
-            }
-          />
-        </Grid>
-        <Grid lg={12} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            variant="contained"
-            type="submit"
-            disabled={completed[activeStep] ? true : false}
+          </Grid>
+          <Grid
+            lg={12}
+            sx={{ display: "flex", justifyContent: "space-between" }}
           >
-            {completed[activeStep] ? "Completed" : "Next"}
-          </Button>
+            {" "}
+            <Button variant="contained" href="/login" hidden>
+              Back to sign in
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={completed[activeStep] ? true : false}
+            >
+              {completed[activeStep] ? "Completed" : "Next"}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </Stack>
+      </Stack>
+    </motion.div>
   );
 }

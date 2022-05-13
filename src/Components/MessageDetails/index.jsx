@@ -50,7 +50,7 @@ export default function MessageDetails() {
           }}
         />
         <Typography
-          variant="h4"
+          variant="h5"
           sx={{
             textAlign: "center",
           }}
@@ -59,9 +59,9 @@ export default function MessageDetails() {
             ? `${friendInfo.lastName} ${friendInfo.firstName}`
             : "NO friend"}
         </Typography>
-        <div>
+        <Typography color="gray">
           {friendInfo.hasOwnProperty("email") ? `${friendInfo.email} ` : null}
-        </div>
+        </Typography>
       </Box>
       <List
         sx={{ height: "100%", overflowY: "scroll" }}

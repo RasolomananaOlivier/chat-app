@@ -14,6 +14,8 @@ import { useFormik } from "formik";
 import { validateSignup } from "./validation";
 import { useDispatch } from "react-redux";
 import { updateTheUserInfo } from "../../Services/Data/infoSlice";
+import { motion } from "framer-motion";
+import { fadeIn } from "./slideIn";
 
 export default function Step1({
   handleComplete,
@@ -21,7 +23,6 @@ export default function Step1({
   completed,
   getSignUp,
 }) {
-  // const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -72,89 +73,101 @@ export default function Step1({
     return !!formik.touched.email && !!formik.errors.email;
   };
   return (
-    <Stack>
-      <Box sx={{ my: 4 }}>
-        <Typography variant="body2">Step 1/3</Typography>
-        <Typography variant="h4">Sign up</Typography>
-      </Box>
+    <motion.div
+      variants={fadeIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <Stack>
+        <Box sx={{ my: 4 }}>
+          <Typography variant="body2">Step 1/3</Typography>
+          <Typography variant="h4">Sign up</Typography>
+        </Box>
 
-      <Box component="form" noValidate onSubmit={formik.handleSubmit}>
-        <Grid container>
-          <Grid item lg={6} sx={{ pr: 2, mb: 5 }}>
-            <TextField
-              name="firstName"
-              label="First Name"
-              fullWidth
-              required
-              disabled={completed[activeStep] ? true : false}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={handleErrorFirstName() ? true : false}
-              helperText={
-                handleErrorFirstName() ? `${formik.errors.firstName}` : null
-              }
+        <Box component="form" noValidate onSubmit={formik.handleSubmit}>
+          <Grid container>
+            <Grid item lg={6} sx={{ pr: 2, mb: 5 }}>
+              <TextField
+                name="firstName"
+                label="First Name"
+                fullWidth
+                required
+                disabled={completed[activeStep] ? true : false}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={handleErrorFirstName() ? true : false}
+                helperText={
+                  handleErrorFirstName() ? `${formik.errors.firstName}` : null
+                }
+              />
+            </Grid>
+            <Grid item lg={6} sx={{ pr: 2, mb: 5 }}>
+              <TextField
+                name="lastName"
+                label="Last Name"
+                fullWidth
+                required
+                disabled={completed[activeStep] ? true : false}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={handleErrorLastName() ? true : false}
+                helperText={
+                  handleErrorLastName() ? `${formik.errors.lastName}` : null
+                }
+              />
+            </Grid>
+            <Grid item lg={6} sx={{ pr: 2, mb: 5 }}>
+              <TextField
+                name="birthday"
+                label="Birthday"
+                fullWidth
+                required
+                disabled={completed[activeStep] ? true : false}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item lg={6} sx={{ pr: 2, mb: 3 }}>
+              <TextField
+                name="email"
+                label="Email"
+                fullWidth
+                required
+                disabled={completed[activeStep] ? true : false}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={handleErrorEmail() ? true : false}
+                helperText={
+                  handleErrorEmail() ? `${formik.errors.email}` : null
+                }
+              />
+            </Grid>{" "}
+          </Grid>
+          <Grid item lg={8} sx={{ pr: 2, mb: 3 }}>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Accept terms and conditions"
             />
           </Grid>
-          <Grid item lg={6} sx={{ pr: 2, mb: 5 }}>
-            <TextField
-              name="lastName"
-              label="Last Name"
-              fullWidth
-              required
-              disabled={completed[activeStep] ? true : false}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={handleErrorLastName() ? true : false}
-              helperText={
-                handleErrorLastName() ? `${formik.errors.lastName}` : null
-              }
-            />
-          </Grid>
-          <Grid item lg={6} sx={{ pr: 2, mb: 5 }}>
-            <TextField
-              name="birthday"
-              label="Birthday"
-              fullWidth
-              required
-              disabled={completed[activeStep] ? true : false}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item lg={6} sx={{ pr: 2, mb: 3 }}>
-            <TextField
-              name="email"
-              label="Email"
-              fullWidth
-              required
-              disabled={completed[activeStep] ? true : false}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={handleErrorEmail() ? true : false}
-              helperText={handleErrorEmail() ? `${formik.errors.email}` : null}
-            />
-          </Grid>{" "}
-        </Grid>
-        <Grid item lg={8} sx={{ pr: 2, mb: 3 }}>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Accept terms and conditions"
-          />
-        </Grid>
-        <Grid
-          item
-          lg={12}
-          sx={{ display: "flex", justifyContent: "flex-end", mr: 2.6 }}
-        >
-          <Button
-            variant="contained"
-            type="submit"
-            disabled={completed[activeStep] ? true : false}
-            hidden
+          <Grid
+            item
+            lg={12}
+            sx={{ display: "flex", justifyContent: "space-between", mr: 2.6 }}
           >
-            {completed[activeStep] ? "Completed" : "Next"}
-          </Button>
-        </Grid>
-      </Box>
-    </Stack>
+            <Button variant="contained" href="/login" hidden>
+              Back to sign in
+            </Button>
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={completed[activeStep] ? true : false}
+              hidden
+            >
+              {completed[activeStep] ? "Completed" : "Next"}
+            </Button>
+          </Grid>
+        </Box>
+      </Stack>
+    </motion.div>
   );
 }
