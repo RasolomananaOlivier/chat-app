@@ -118,9 +118,12 @@ export default function Messagelayout() {
         ) : (
           <AnimatePresence>
             {MessagesRedux.items.map((msg, index) => {
-              let previousMessageAuth;
+              let previousMessageAuth, nextMessageAuth;
               if (index !== 0) {
                 previousMessageAuth = MessagesRedux.items[index - 1].auth;
+              }
+              if (index !== MessagesRedux.items.length - 1) {
+                nextMessageAuth = MessagesRedux.items[index + 1].auth;
               }
 
               /**
@@ -142,6 +145,7 @@ export default function Messagelayout() {
                       content={msg.content}
                       mediaFileName={msg?.mediaId}
                       sameAuth={msg.auth === previousMessageAuth}
+                      isNextDifferent={msg.auth !== nextMessageAuth}
                       time={msg.timeStamp}
                     />
                   </motion.div>
@@ -162,6 +166,7 @@ export default function Messagelayout() {
                       content={msg.content}
                       mediaFileName={msg?.mediaId}
                       sameAuth={msg.auth === previousMessageAuth}
+                      isNextDifferent={msg.auth !== nextMessageAuth}
                       time={msg.timeStamp}
                     />
                   </motion.div>

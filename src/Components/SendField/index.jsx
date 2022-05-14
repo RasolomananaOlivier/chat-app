@@ -105,7 +105,10 @@ export default function SendField() {
     <Box
       sx={{
         display: "flex",
-        mx: 3,
+        width: "97.6%",
+        borderRadius: "10px 10px 0 0",
+        p: 1,
+        bgcolor: "#F3F4FD",
       }}
     >
       <TextField
@@ -123,21 +126,23 @@ export default function SendField() {
           }
         }}
       />
-      <IconButton
-        sx={{
-          pl: 1.5,
-        }}
-        component="label"
-      >
-        <CameraAlt sx={iconsStyleSmall} />
-        <input
-          id="fileupload"
-          accept="image/*"
-          type="file"
-          onChange={imageChange}
-          hidden
-        />
-      </IconButton>{" "}
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <IconButton
+          sx={{
+            pl: 1.5,
+          }}
+          component="label"
+        >
+          <CameraAlt sx={iconsStyleSmall} />
+          <input
+            id="fileupload"
+            accept="image/*"
+            type="file"
+            onChange={imageChange}
+            hidden
+          />
+        </IconButton>
+      </Box>{" "}
       <Modal
         open={showModal}
         onClose={handleCloseModal}
@@ -173,15 +178,17 @@ export default function SendField() {
           </Box>
         </Box>
       </Modal>
-      <IconButton
-        sx={{
-          pl: 1.5,
-          pr: 2,
-        }}
-        onClick={handleTextSender}
-      >
-        <Send sx={iconsStyleSmall} />
-      </IconButton>
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <IconButton
+          sx={{
+            pl: 1.5,
+            pr: 2,
+          }}
+          onClick={handleTextSender}
+        >
+          <Send sx={iconsStyleSmall} />
+        </IconButton>
+      </Box>
     </Box>
   );
 }

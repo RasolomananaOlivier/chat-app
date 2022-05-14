@@ -17,6 +17,7 @@ export default function MessageFriend({
   content,
   mediaFileName,
   sameAuth,
+  isNextDifferent,
   time,
 }) {
   const [mouted, setmouted] = useState(false);
@@ -95,8 +96,13 @@ export default function MessageFriend({
                 minWidth: 60,
                 maxWidth: 370,
                 backgroundImage: "linear-gradient(60deg,#ed1845, #22a6df)",
-                borderRadius: `10px 10px 10px ${!sameAuth ? "0" : "10px"}`,
-                p: 1.5,
+                borderRadius: !sameAuth
+                  ? "15px 15px 15px 0"
+                  : isNextDifferent
+                  ? "0 15px 15px 15px"
+                  : "0 15px 15px 0",
+                py: 1,
+                px: 1.2,
                 cursor: "pointer",
                 color: "white",
                 ml: !sameAuth ? "0" : "4.6rem",
@@ -130,11 +136,12 @@ export default function MessageFriend({
                 p: 0,
                 ml: !sameAuth ? "0" : "4.6rem",
                 color: "white",
+                maxHeight: 170,
               }}
             >
               <img
                 width={260}
-                height="100%"
+                height={170}
                 src={
                   mediaFileName !== undefined || mediaFileName !== ""
                     ? `${baseURL}/pic/avatar/${mediaFileName}`
@@ -151,6 +158,7 @@ export default function MessageFriend({
             <ModalImageViewer
               showModal={showModal}
               handleCloseModal={handleCloseModal}
+              mediaFileName={mediaFileName}
             />
           </>
         )}

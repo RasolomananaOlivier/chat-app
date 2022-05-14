@@ -25,7 +25,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-function SideNavigation() {
+function SideNavigation({ value, setValue }) {
+  console.log(value);
   const user = useSelector((state) => state.user);
 
   const socket = useContext(SocketContext);
@@ -59,7 +60,7 @@ function SideNavigation() {
         </StyledBadge>
       </Box>
 
-      <VerticalTabs />
+      <VerticalTabs value={value} setValue={setValue} />
     </Stack>
   );
 }

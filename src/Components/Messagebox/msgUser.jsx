@@ -72,10 +72,12 @@ export default function MessageUser({
               onClick={handleClick}
               onMouseLeave={handleMouseLeave}
               sx={{
+                minWidth: 60,
                 maxWidth: 370,
                 backgroundColor: "#E5E2E2",
                 borderRadius: "10px",
-                p: 1.5,
+                py: 1,
+                px: 1.2,
                 cursor: "pointer",
               }}
             >

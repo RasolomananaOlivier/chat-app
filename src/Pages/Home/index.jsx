@@ -1,142 +1,25 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import IconLabelTabs from "../../Components/IconLabelTabs";
 import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Messagelayout from "../../Layout/messagelayout";
 import MessageDetails from "../../Components/MessageDetails";
 import "../../Assets/css/utils.css";
 import RecentMessage from "../../Components/RecentMessage";
 import RequestTab from "../../Components/RequestTab";
 import NotificationTab from "../../Components/NotificationTab.jsx";
-import { socket, SocketContext } from "../../Config/socket";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addRequestFriend,
-  fetchRequestFromTheServer,
-} from "../../Services/Data/requestSlice";
-import { fetchingTheFriendsCollections } from "../../Services/Data/friendscollectionsSlice";
-import { fetchNotificationsFromTheServer } from "../../Services/Data/notificationSlice";
-import {
-  addOneMessageCollection,
-  addOneMessageToOneCollection,
-  fetchMessageCollectionFromServer,
-} from "../../Services/Data/messagesArraySlice";
-import { getAllMessage } from "../../Services/Api/allmessage";
-import { addNewMessage } from "../../Services/Data/messageSlice";
-import {
-  addOneMedia,
-  addOneMediaIdToOneMediaCollection,
-  fetchMediasCollectionsFromTheServer,
-} from "../../Services/Data/allMediasSlice";
-import { updateMedias } from "../../Services/Data/mediaSlice";
-import { getAllMedias } from "../../Services/Api/allmedia";
 
-function HomeWithContext() {
-  return (
-    <SocketContext.Provider value={socket}>
-      <Home />
-    </SocketContext.Provider>
-  );
-}
-
-function Home() {
-  const [value, setValue] = React.useState(0);
-  const userId = useSelector((state) => state.user._id);
-  const messages = useSelector((state) => state.messages);
-
-  console.log("redux msg", messages);
-
-  const socket = useContext(SocketContext);
-
-  useEffect(() => {
-    getAllMessage(userId)
-      .then((result) => {
-        dispatch(fetchMessageCollectionFromServer(result));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    getAllMedias(userId)
-      .then((result) => {
-        dispatch(fetchMediasCollectionsFromTheServer(result));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    socket.on("connect", () => {
-      console.log("connected ?", socket.connected);
-    });
-
-    socket.on(`${user._id}_NEW_NOTIFICATION`, (data, message, media) => {
-      console.log("notify", data, message);
-      dispatch(fetchNotificationsFromTheServer(data.notificationsCollections));
-      dispatch(fetchingTheFriendsCollections(data.friendsCollections));
-      dispatch(fetchRequestFromTheServer(data.requests));
-      dispatch(addOneMessageCollection(message));
-      dispatch(addOneMedia(media));
-    });
-    socket.on(`${user._id}_NEW_REQUEST`, (requestArray) => {
-      console.log("req", requestArray);
-      dispatch(addRequestFriend(requestArray));
-    });
-    socket.on("hello", (arg) => {
-      console.log("test", arg);
-    });
-
-    socket.on(`${user._id}_NEW_FRIEND_ACCEPTED`, (data, message, media) => {
-      console.log("accepted request", data, message);
-
-      dispatch(fetchingTheFriendsCollections(data.friendsCollections));
-      dispatch(fetchRequestFromTheServer(data.requests));
-      dispatch(addOneMessageCollection(message));
-      dispatch(addOneMedia(media));
-    });
-
-    socket.on(`${user._id}_NEW_MESSAGE`, (data, mediaData) => {
-      const { items } = data;
-      console.log("> media", mediaData);
-      // console.log("new message", data);
-      dispatch(addOneMessageToOneCollection(data));
-      if (mediaData !== null) {
-        dispatch(addOneMediaIdToOneMediaCollection(mediaData));
-      }
-
-      const localStorageMessages = JSON.parse(
-        localStorage.getItem(`messages-${user._id}`)
-      );
-      console.log("compare", localStorageMessages._id, data._id);
-      if (localStorageMessages._id === data._id) {
-        // console.log(data.items[items.length - 1]);
-        const payload = data.items[items.length - 1];
-        dispatch(addNewMessage(payload));
-        if (mediaData !== null) {
-          dispatch(updateMedias(mediaData));
-        }
-      }
-    });
-
-    socket.on("disconnect", () => {
-      socket.connect();
-    });
-    // eslint-disable-next-line
-  }, []);
-
-  const user = useSelector((state) => state.user);
-
-  const dispatch = useDispatch();
-
+function Home({ value, setValue }) {
   const render = useCallback(() => {
     if (value === 0) {
       return <RecentMessage />;
     } else if (value === 1) {
       return <RequestTab />;
-    } else {
+    } else if (value === 2) {
       return <NotificationTab />;
     }
   }, [value]);
@@ -144,9 +27,8 @@ function Home() {
   return (
     <Grid container sx={{ height: "100%" }}>
       <Grid item md={3}>
-        {/* <Button onClick={handleClick}>test</Button> */}
         <Stack
-          spacing={2}
+          spacing={1}
           sx={{
             height: "96vh",
             px: 1.8,
@@ -154,6 +36,13 @@ function Home() {
             bgcolor: "#1a1d78",
           }}
         >
+          <Typography color="white" variant="h5">
+            {value === 0
+              ? "Messages"
+              : value === 1
+              ? "Requests"
+              : "Notifications"}
+          </Typography>
           <Box>
             <Autocomplete
               id="free-solo-demo"
@@ -196,9 +85,7 @@ function Home() {
               )}
             />
           </Box>
-          <Box>
-            <IconLabelTabs value={value} setValue={setValue} />
-          </Box>
+
           {/* Main content of this grid */}
           {render()}
         </Stack>
@@ -231,6 +118,7 @@ const top100Films = [
     title: "The Lord of the Rings: The Fellowship of the Ring",
     year: 2001,
   },
+
   {
     title: "Star Wars: Episode V - The Empire Strikes Back",
     year: 1980,
@@ -341,4 +229,4 @@ const top100Films = [
   { title: "Monty Python and the Holy Grail", year: 1975 },
 ];
 
-export default HomeWithContext;
+export default Home;

@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Background from "../../Assets/img/Calagus Islands.jpg";
+import Background from "../../Assets/img/login-background.jpg";
 import { useFormik } from "formik";
 import { validateLogin } from "../Signup/validation";
 import { login } from "../../Services/Api/login";
@@ -91,6 +91,32 @@ export default function Signup() {
         >
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7}>
+            <Typography
+              variant="h3"
+              sx={{
+                zIndex: 2,
+                position: "absolute",
+                top: "40%",
+                left: "7%",
+                color: "white",
+              }}
+            >
+              {" "}
+              Your community misses you
+            </Typography>
+            <Typography
+              variant="h5"
+              sx={{
+                zIndex: 2,
+                position: "absolute",
+                top: "50%",
+                left: "23%",
+                color: "white",
+              }}
+            >
+              {" "}
+              Join them !
+            </Typography>
             <img
               src={Background}
               style={{ height: "100vh" }}

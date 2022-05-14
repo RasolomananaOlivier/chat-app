@@ -3,21 +3,15 @@ import React from 'react';
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
-import Setting from './Pages/Setting';
-import About from './Pages/About';
-import Layout from './Layout';
-import SettingLayout from './Layout/settingLayout';
-import Security from './Pages/Setting/security';
-import Preference from './Pages/Setting/preference';
-import Other from './Pages/Setting/other';
+
 import { Provider } from 'react-redux';
 import store from "./Services/Data/store";
-import HomeWithContext from './Pages/Home';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import persistStore from 'redux-persist/es/persistStore';
 
 import { AnimatePresence } from 'framer-motion'
+import LayoutWithContext from './Layout';
 
 
 let persistor = persistStore(store);
@@ -38,16 +32,7 @@ function App() {
 
               <Route path='/signup' element={<Signup />} />
 
-              <Route path='/home' element={<Layout />} >
-                <Route index element={<HomeWithContext />} />
-                <Route path='setting' element={<SettingLayout />} >
-                  <Route index element={<Setting />} />
-                  <Route path='security' element={<Security />} />
-                  <Route path='preference' element={<Preference />} />
-                  <Route path='other' element={<Other />} />
-                </Route>
-                <Route path='about' element={<About />} />
-              </Route>
+              <Route path='/home' element={<LayoutWithContext />} />
             </Routes>
           </AnimatePresence>
 

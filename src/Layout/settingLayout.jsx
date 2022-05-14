@@ -1,10 +1,14 @@
 import { Box, Container, Grid, Paper, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
 import VerticalTabsSetting from "../Components/VerticalTabs/veriticalTabsSetting";
+import Setting from "../Pages/Setting";
+import Other from "../Pages/Setting/other";
+import Preference from "../Pages/Setting/preference";
+import Security from "../Pages/Setting/security";
 
 export default function SettingLayout() {
   const [header, setheader] = useState("Manage your account");
+  const [value, setValue] = useState(0);
 
   return (
     <Box sx={{ bgcolor: "#1a1d78", width: "100%", height: "100%" }}>
@@ -45,7 +49,11 @@ export default function SettingLayout() {
         >
           <Grid container display="flex">
             <Grid lg={2}>
-              <VerticalTabsSetting setheader={setheader} />
+              <VerticalTabsSetting
+                setheader={setheader}
+                value={value}
+                setValue={setValue}
+              />
             </Grid>
             <Grid
               container
@@ -55,7 +63,15 @@ export default function SettingLayout() {
                 px: 5,
               }}
             >
-              <Outlet />
+              {value === 0 ? (
+                <Setting />
+              ) : value === 1 ? (
+                <Security />
+              ) : value === 2 ? (
+                <Preference />
+              ) : (
+                <Other />
+              )}
             </Grid>
           </Grid>
         </Paper>

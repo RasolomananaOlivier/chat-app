@@ -3,7 +3,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { Logout, CoPresent, Palette, VerifiedUser } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
 
 function a11yProps(index) {
   return {
@@ -12,41 +11,11 @@ function a11yProps(index) {
   };
 }
 
-export default function VerticalTabsSetting({ setheader }) {
-  /*-- Navigation 0 to 3 ---*/
-  const [value, setValue] = React.useState(0);
-  /* --- Access to the current url path --*/
-  let location = useLocation();
+export default function VerticalTabsSetting({ setheader, value, setValue }) {
   const handleChange = (event, newValue) => {
     event.preventDefault();
     setValue(newValue);
-    if (newValue === 0) {
-      navigate("/home/setting");
-      setheader("Manage your account");
-    } else if (newValue === 1) {
-      navigate("/home/setting/security");
-      setheader("Make it secure");
-    } else if (newValue === 2) {
-      navigate("/home/setting/preference");
-      setheader("The app is yours");
-    } else {
-      navigate("/home/setting/other");
-      setheader("Oops , Don t header");
-    }
   };
-
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    if (location.pathname === "/home/setting") {
-      setValue(0);
-    } else if (location.pathname === "/home/setting/security") {
-      setValue(1);
-    } else if (location.pathname === "/home/setting/preference") {
-      setValue(2);
-    } else {
-      setValue(3);
-    }
-  }, [location]);
 
   return (
     <>

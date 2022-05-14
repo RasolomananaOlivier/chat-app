@@ -2,24 +2,26 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { Announcement, Chat, Logout, Settings } from "@mui/icons-material";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Info,
+  ExitToApp,
+  ChatBubble,
+  NotificationsActive,
+  PersonAddAlt1,
+  Settings,
+} from "@mui/icons-material";
 import AlertDialog from "../AlertDialog";
+import { Badge } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export const iconsStyleSmall = {
   borderRadius: "50%",
-  fontSize: 18,
+  fontSize: 20,
   p: 0.7,
   backgroundImage: "linear-gradient(60deg,#ed1845, #22a6df)",
   color: "white",
 };
 
-const iconsStyleSmallNav = {
-  borderRadius: "50%",
-  fontSize: 24,
-
-  color: "white",
-};
 const iconsStyleSmallNav2 = {
   borderRadius: "50%",
   fontSize: 24,
@@ -33,37 +35,15 @@ function a11yProps(index) {
   };
 }
 
-export default function VerticalTabs() {
-  /*-- Navigation 0 to 3 ---*/
-  const [value, setValue] = React.useState(0);
+export default function VerticalTabs({ value, setValue }) {
   /* --- Access to the current url path --*/
-  let location = useLocation();
-  /**
-   * TODO: Fix the navigation
-   */
+
   const handleChange = (event, newValue) => {
     event.preventDefault();
-
-    setValue(newValue);
-    if (newValue === 0) {
-      navigate("/home");
-    } else if (newValue === 1) {
-      navigate("/home/setting");
-    } else if (newValue === 2) {
-      navigate("/home/about");
+    if (newValue !== 6) {
+      setValue(newValue);
     }
   };
-
-  const navigate = useNavigate();
-  React.useEffect(() => {
-    if (location.pathname === "/home") {
-      setValue(0);
-    } else if (location.pathname.includes("/home/setting")) {
-      setValue(1);
-    } else if (location.pathname === "/home/about") {
-      setValue(2);
-    }
-  }, [location]);
 
   /* Show dialog */
   const [open, setOpen] = React.useState(false);
@@ -74,9 +54,25 @@ export default function VerticalTabs() {
 
   const handleClose = () => {
     setOpen(false);
-    setValue(0);
-    navigate("/home");
   };
+
+  /* --- Get the messages array -- */
+  const messagesArray = useSelector((state) => state.messagesArray);
+  /* --- Get request Collections --*/
+  const requestCollections = useSelector((state) => state.requests);
+  /* --- Get Notifications collections ***/
+  const notifications = useSelector((state) => state.notificationsCollection);
+
+  const unreadMessages = React.useMemo(() => {
+    let count = [];
+    messagesArray.forEach((msg) => {
+      if (!msg.read) {
+        // console.log(msg);
+        count.push(msg);
+      }
+    });
+    return count;
+  }, [messagesArray]);
 
   return (
     <Box
@@ -96,11 +92,13 @@ export default function VerticalTabs() {
         onChange={handleChange}
         aria-label="Vertical tabs example"
         sx={{
+          display: "flex",
+          flexDirection: "column",
           borderLeft: 0,
           borderColor: "divider",
           width: "100%",
           ".MuiTabs-indicator": {
-            left: 1,
+            display: "none",
           },
         }}
       >
@@ -108,11 +106,15 @@ export default function VerticalTabs() {
           sx={{
             display: "flex",
             fontSize: 13,
-            bgcolor: value === 0 ? "#1a1d78" : null,
+
             justifyContent: "center",
           }}
           icon={
-            <Chat sx={value === 0 ? iconsStyleSmallNav : iconsStyleSmallNav2} />
+            <Badge badgeContent={unreadMessages.length} max={99} color="error">
+              <ChatBubble
+                sx={value === 0 ? iconsStyleSmall : iconsStyleSmallNav2}
+              />
+            </Badge>
           }
           iconPosition="start"
           {...a11yProps(0)}
@@ -121,12 +123,50 @@ export default function VerticalTabs() {
           sx={{
             display: "flex",
             fontSize: 13,
-            bgcolor: value === 1 ? "#1a1d78" : null,
+
+            justifyContent: "center",
+          }}
+          icon={
+            <Badge
+              badgeContent={requestCollections.length}
+              max={99}
+              color="error"
+            >
+              <PersonAddAlt1
+                sx={value === 1 ? iconsStyleSmall : iconsStyleSmallNav2}
+              />
+            </Badge>
+          }
+          iconPosition="start"
+          {...a11yProps(0)}
+        />
+        <Tab
+          sx={{
+            display: "flex",
+            fontSize: 13,
+
+            justifyContent: "center",
+          }}
+          icon={
+            <Badge color="error" badgeContent={notifications.length} max={99}>
+              <NotificationsActive
+                sx={value === 2 ? iconsStyleSmall : iconsStyleSmallNav2}
+              />
+            </Badge>
+          }
+          iconPosition="start"
+          {...a11yProps(0)}
+        />
+        <Tab
+          sx={{
+            display: "flex",
+            fontSize: 13,
+
             justifyContent: "center",
           }}
           icon={
             <Settings
-              sx={value === 1 ? iconsStyleSmallNav : iconsStyleSmallNav2}
+              sx={value === 3 ? iconsStyleSmall : iconsStyleSmallNav2}
             />
           }
           iconPosition="start"
@@ -136,27 +176,25 @@ export default function VerticalTabs() {
           sx={{
             display: "flex",
             fontSize: 13,
-            bgcolor: value === 2 ? "#1a1d78" : null,
+
             justifyContent: "center",
           }}
           icon={
-            <Announcement
-              sx={value === 2 ? iconsStyleSmallNav : iconsStyleSmallNav2}
-            />
+            <Info sx={value === 4 ? iconsStyleSmall : iconsStyleSmallNav2} />
           }
           iconPosition="start"
           {...a11yProps(2)}
         />
+        <Box sx={{ height: "15rem" }}></Box>
         <Tab
           sx={{
             display: "flex",
             fontSize: 13,
-            bgcolor: value === 3 ? "#1a1d78" : null,
             justifyContent: "center",
           }}
           icon={
-            <Logout
-              sx={value === 3 ? iconsStyleSmallNav : iconsStyleSmallNav2}
+            <ExitToApp
+              sx={value === 5 ? iconsStyleSmall : iconsStyleSmallNav2}
             />
           }
           iconPosition="start"
