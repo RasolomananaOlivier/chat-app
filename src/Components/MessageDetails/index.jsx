@@ -63,7 +63,7 @@ export default function MessageDetails() {
         </Typography>
       </Box>
       <List
-        sx={{ height: "100%", overflowY: "scroll" }}
+        sx={{ height: "64vh", overflowY: "scroll" }}
         className="disable-scrollbar"
       >
         <MemberAccordion />

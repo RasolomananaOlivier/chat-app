@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 
 import { baseURL } from "../Config/server";
 import { AnimatePresence, motion } from "framer-motion";
+import MessageIllustration from "../Assets/img/message.webp";
 
 const messageFriendVariants = {
   hidden: {
@@ -55,19 +56,20 @@ export default function Messagelayout() {
   const containerRef = React.useRef(null);
   const messageEnd = React.useRef(null);
   const scrollToTheEnd = () => {
-    messageEnd.current.scrollIntoView({ behavior: "smooth" });
+    messageEnd.current?.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
     scrollToTheEnd();
   }, [MessagesRedux]);
 
   return (
-    <Stack sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <Stack>
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          px: 1,
+          pl: 2,
+          pr: 1,
           py: 1.5,
         }}
       >
@@ -113,13 +115,25 @@ export default function Messagelayout() {
         sx={{
           overflowX: "hidden",
           overflowY: "scroll",
-          pb: 2,
+          py: 2,
+          height: "68vh",
         }}
         ref={containerRef}
         className="disable-scrollbar"
       >
         {MessagesRedux.items.length === 0 ? (
-          <div>Oops,no more messages</div>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            <img src={MessageIllustration} alt="mp" />
+            Start sending you message.
+          </Box>
         ) : (
           <>
             <AnimatePresence>
@@ -180,11 +194,22 @@ export default function Messagelayout() {
                 }
               })}
             </AnimatePresence>
-            <div ref={messageEnd}></div>
           </>
         )}
+        <div ref={messageEnd}></div>
       </Stack>
-      <SendField />
+      {/**
+       * TODO: Find a way to make it works better
+       */}
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          width: "47.7vw",
+        }}
+      >
+        <SendField />
+      </Box>
     </Stack>
   );
 }

@@ -26,23 +26,21 @@ function Home({ value, setValue }) {
 
   return (
     <Grid container>
-      <Grid item md={3}>
+      <Grid item md={3} sx={{ bgcolor: "#1a1d78" }}>
         <Stack
           spacing={1}
           sx={{
-            px: 1.8,
-            py: 2.5,
-            bgcolor: "#1a1d78",
+            height: "100vh",
           }}
         >
-          <Typography color="white" variant="h5">
+          <Typography color="white" variant="h5" sx={{ px: 1.5, pt: 2 }}>
             {value === 0
               ? "Messages"
               : value === 1
               ? "Requests"
               : "Notifications"}
           </Typography>
-          <Box>
+          <Box sx={{ px: 1.5 }}>
             <Autocomplete
               id="free-solo-demo"
               freeSolo
@@ -85,21 +83,21 @@ function Home({ value, setValue }) {
             />
           </Box>
 
-          {/* Main content of this grid */}
           <Box
             sx={{
-              height: "81vh",
+              height: "80vh",
               overflow: "hidden",
+              px: 1.5,
             }}
           >
             {render()}
           </Box>
         </Stack>
       </Grid>
-      <Grid item md={6} sx={{ pt: 2 }}>
+      <Grid item md={6} sx={{ height: "100vh" }}>
         <Messagelayout />
       </Grid>
-      <Grid item md={3}>
+      <Grid item md={3} sx={{ height: "100vh" }}>
         <MessageDetails />
       </Grid>
     </Grid>

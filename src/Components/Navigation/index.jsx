@@ -26,7 +26,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 function SideNavigation({ value, setValue }) {
-  console.log(value);
   const user = useSelector((state) => state.user);
 
   const socket = useContext(SocketContext);
@@ -36,7 +35,7 @@ function SideNavigation({ value, setValue }) {
     // eslint-disable-next-line
   }, []);
   return (
-    <Stack sx={{ height: "100%", bgcolor: "rgb(25, 25, 80)" }}>
+    <Stack sx={{ height: "100vh", bgcolor: "rgb(25, 25, 80)" }}>
       <Box
         display="flex"
         justifyContent={"center"}

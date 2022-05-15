@@ -1,4 +1,4 @@
-import { Divider, List, Stack } from "@mui/material";
+import { Divider, List, Stack, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,10 +53,14 @@ export default function RequestTab() {
     <List
       sx={{
         p: 0,
+        color: "white",
       }}
       className="disable-scrollbar"
     >
       <Stack spacing={1} sx={{ width: "100%" }}>
+        <Typography variant="h6" sx={{ pt: 1 }}>
+          List of friend request :
+        </Typography>
         {requestCollections.length === 0 ? (
           <div>No request </div>
         ) : (
@@ -89,8 +93,11 @@ export default function RequestTab() {
           </motion.div>
         )}
       </Stack>
-      <Divider />
+      <Divider sx={{ backgroundColor: "#CFC8C8" }} />
       <Stack spacing={1} sx={{ width: "100%" }}>
+        <Typography variant="h6" sx={{ pt: 1 }}>
+          Person you may know :
+        </Typography>
         {suggestions.length === 0 ? (
           <div>No suggestion </div>
         ) : (
@@ -107,6 +114,7 @@ export default function RequestTab() {
                     variants={listVariants}
                     exit={{ scale: 0, transition: { duration: 0.2 } }}
                     key={suggestion._id}
+                    style={{ marginBottom: 12 }}
                   >
                     <SuggestionBox
                       id={suggestion._id}

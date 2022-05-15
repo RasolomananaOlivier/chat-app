@@ -105,10 +105,7 @@ export default function SendField() {
     <Box
       sx={{
         display: "flex",
-        /*  width: "98.5%",
-        position: "relative",
-        right: 10,
-        bottom: 15, */
+
         borderRadius: "10px 10px 0 0",
         py: 1,
         px: 2,

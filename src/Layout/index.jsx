@@ -124,7 +124,7 @@ function Layout() {
 
   return (
     <Grid container columns={16}>
-      <Grid item lg={1} /* sx={{ border: "1px solid black" }} */>
+      <Grid item lg={1}>
         <SideNavigation value={value} setValue={setValue} />
       </Grid>
       <Grid item lg={15} /* sx={{ border: "1px solid black" }} */>

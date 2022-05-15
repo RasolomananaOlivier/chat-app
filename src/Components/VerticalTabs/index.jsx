@@ -40,7 +40,7 @@ export default function VerticalTabs({ value, setValue }) {
 
   const handleChange = (event, newValue) => {
     event.preventDefault();
-    if (newValue !== 6) {
+    if (newValue !== 5) {
       setValue(newValue);
     }
   };
@@ -185,12 +185,14 @@ export default function VerticalTabs({ value, setValue }) {
           iconPosition="start"
           {...a11yProps(2)}
         />
-        <Box sx={{ height: "15rem" }}></Box>
+
         <Tab
           sx={{
             display: "flex",
             fontSize: 13,
             justifyContent: "center",
+            position: "absolute",
+            bottom: 20,
           }}
           icon={
             <ExitToApp

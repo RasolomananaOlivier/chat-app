@@ -6,7 +6,13 @@ import Representation from "../../Assets/img/illustration-reset.jpg";
 
 function About() {
   return (
-    <Box sx={{ bgcolor: "#1a1d78", width: "100%", height: "100%" }}>
+    <Box
+      sx={{
+        bgcolor: "#1a1d78",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
       <Box
         sx={{
           width: "93vw",

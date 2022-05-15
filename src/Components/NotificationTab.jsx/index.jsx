@@ -1,9 +1,13 @@
-import { List, Stack } from "@mui/material";
+import { Box, List, Stack } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import NotificationBox from "./notificationBox";
 import { motion } from "framer-motion";
+import {
+  NotificationAddTwoTone,
+  NotificationsNoneTwoTone,
+} from "@mui/icons-material";
 
 const listVariants = {
   hidden: {
@@ -23,10 +27,27 @@ export default function NotificationTab() {
 
   return (
     <List className="disable-scrollbar">
-      <Stack spacing={1}>
+      <Stack spacing={1} color="white">
         <AnimatePresence>
           {notificationsState.length === 0 ? (
-            <div>No more notification</div>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                position: "relative",
+                top: "20vh",
+              }}
+            >
+              <NotificationsNoneTwoTone fontSize="large" htmlColor="#08AFCC" />
+              <div
+                style={{ textAlign: "center", fontSize: 15, padding: "5px" }}
+              >
+                Your notification should appear here. Stay calm and carry on.
+              </div>
+            </Box>
           ) : (
             notificationsState.map((notification) => {
               return (
