@@ -52,14 +52,7 @@ export default function RecentMessage() {
   }, [friendStore]);
 
   return (
-    <List
-      sx={{
-        height: "72vh",
-        overflowY: "scroll",
-      }}
-      className="disable-scrollbar"
-      ref={ref}
-    >
+    <List className="disable-scrollbar" ref={ref}>
       {listFriends.length === 0 ? (
         <div>You don t have a friend</div>
       ) : (

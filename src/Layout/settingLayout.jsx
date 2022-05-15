@@ -11,7 +11,7 @@ export default function SettingLayout() {
   const [value, setValue] = useState(0);
 
   return (
-    <Box sx={{ bgcolor: "#1a1d78", width: "100%", height: "100%" }}>
+    <Box sx={{ bgcolor: "#1a1d78", width: "100%", height: "100vh" }}>
       <Box
         sx={{
           display: "flex",

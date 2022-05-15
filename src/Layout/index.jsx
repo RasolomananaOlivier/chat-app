@@ -124,10 +124,10 @@ function Layout() {
 
   return (
     <Grid container columns={16}>
-      <Grid item lg={1}>
+      <Grid item lg={1} /* sx={{ border: "1px solid black" }} */>
         <SideNavigation value={value} setValue={setValue} />
       </Grid>
-      <Grid item lg={15}>
+      <Grid item lg={15} /* sx={{ border: "1px solid black" }} */>
         {[0, 1, 2].includes(value) ? (
           <Home value={value} setValue={setValue} />
         ) : value === 3 ? (

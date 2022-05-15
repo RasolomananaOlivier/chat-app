@@ -1,5 +1,5 @@
 import { Box, Avatar, IconButton, Divider, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import AccountMenu from "../Components/Menu";
 import { Menu } from "@mui/icons-material";
@@ -53,15 +53,22 @@ export default function Messagelayout() {
    * Get the parent element to make to child slide in it
    */
   const containerRef = React.useRef(null);
+  const messageEnd = React.useRef(null);
+  const scrollToTheEnd = () => {
+    messageEnd.current.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToTheEnd();
+  }, [MessagesRedux]);
 
   return (
-    <Stack>
+    <Stack sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          px: 2,
-          py: 1,
+          px: 1,
+          py: 1.5,
         }}
       >
         {friendInfo.hasOwnProperty("_id") ? (
@@ -104,8 +111,6 @@ export default function Messagelayout() {
       />
       <Stack
         sx={{
-          height: "72vh",
-          width: 635,
           overflowX: "hidden",
           overflowY: "scroll",
           pb: 2,
@@ -116,64 +121,67 @@ export default function Messagelayout() {
         {MessagesRedux.items.length === 0 ? (
           <div>Oops,no more messages</div>
         ) : (
-          <AnimatePresence>
-            {MessagesRedux.items.map((msg, index) => {
-              let previousMessageAuth, nextMessageAuth;
-              if (index !== 0) {
-                previousMessageAuth = MessagesRedux.items[index - 1].auth;
-              }
-              if (index !== MessagesRedux.items.length - 1) {
-                nextMessageAuth = MessagesRedux.items[index + 1].auth;
-              }
+          <>
+            <AnimatePresence>
+              {MessagesRedux.items.map((msg, index) => {
+                let previousMessageAuth, nextMessageAuth;
+                if (index !== 0) {
+                  previousMessageAuth = MessagesRedux.items[index - 1].auth;
+                }
+                if (index !== MessagesRedux.items.length - 1) {
+                  nextMessageAuth = MessagesRedux.items[index + 1].auth;
+                }
 
-              /**
-               * TODO: Remove it
-               */
-              if (msg.auth === `${user._id}`) {
-                return (
-                  <motion.div
-                    key={msg._id}
-                    variants={userFriendVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                  >
-                    <MessageUser
-                      containerRef={containerRef}
-                      id={msg._id}
-                      type={msg.messageType}
-                      content={msg.content}
-                      mediaFileName={msg?.mediaId}
-                      sameAuth={msg.auth === previousMessageAuth}
-                      isNextDifferent={msg.auth !== nextMessageAuth}
-                      time={msg.timeStamp}
-                    />
-                  </motion.div>
-                );
-              } else {
-                return (
-                  <motion.div
-                    key={msg._id}
-                    variants={messageFriendVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                  >
-                    <MessageFriend
-                      containerRef={containerRef}
-                      id={msg._id}
-                      type={msg.messageType}
-                      content={msg.content}
-                      mediaFileName={msg?.mediaId}
-                      sameAuth={msg.auth === previousMessageAuth}
-                      isNextDifferent={msg.auth !== nextMessageAuth}
-                      time={msg.timeStamp}
-                    />
-                  </motion.div>
-                );
-              }
-            })}
-          </AnimatePresence>
+                /**
+                 * TODO: Remove it
+                 */
+                if (msg.auth === `${user._id}`) {
+                  return (
+                    <motion.div
+                      key={msg._id}
+                      variants={userFriendVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
+                      <MessageUser
+                        containerRef={containerRef}
+                        id={msg._id}
+                        type={msg.messageType}
+                        content={msg.content}
+                        mediaFileName={msg?.mediaId}
+                        sameAuth={msg.auth === previousMessageAuth}
+                        isNextDifferent={msg.auth !== nextMessageAuth}
+                        time={msg.timeStamp}
+                      />
+                    </motion.div>
+                  );
+                } else {
+                  return (
+                    <motion.div
+                      key={msg._id}
+                      variants={messageFriendVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
+                      <MessageFriend
+                        containerRef={containerRef}
+                        id={msg._id}
+                        type={msg.messageType}
+                        content={msg.content}
+                        mediaFileName={msg?.mediaId}
+                        sameAuth={msg.auth === previousMessageAuth}
+                        isNextDifferent={msg.auth !== nextMessageAuth}
+                        time={msg.timeStamp}
+                      />
+                    </motion.div>
+                  );
+                }
+              })}
+            </AnimatePresence>
+            <div ref={messageEnd}></div>
+          </>
         )}
       </Stack>
       <SendField />

@@ -22,10 +22,7 @@ export default function NotificationTab() {
   const notificationsState = useMemo(() => notifications, [notifications]);
 
   return (
-    <List
-      sx={{ height: "100%", overflowY: "scroll" }}
-      className="disable-scrollbar"
-    >
+    <List className="disable-scrollbar">
       <Stack spacing={1}>
         <AnimatePresence>
           {notificationsState.length === 0 ? (

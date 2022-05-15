@@ -18,8 +18,7 @@ export default function MessageDetails() {
   return (
     <Stack
       sx={{
-        height: "100vh",
-        px: 1.5,
+        pt: 2,
         boxShadow: "0 0 2px rgba(0,0,0,0.3)",
       }}
     >

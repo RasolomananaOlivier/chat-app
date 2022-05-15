@@ -17,6 +17,7 @@ import LayoutWithContext from './Layout';
 let persistor = persistStore(store);
 
 function App() {
+
   const location = useLocation();
   console.log(location);
   return (
@@ -37,14 +38,8 @@ function App() {
           </AnimatePresence>
 
         </PersistGate>
-
-
       </Provider>
-
-
     </div >
-
-
   );
 
 

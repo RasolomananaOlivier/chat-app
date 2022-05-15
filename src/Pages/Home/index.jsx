@@ -25,12 +25,11 @@ function Home({ value, setValue }) {
   }, [value]);
 
   return (
-    <Grid container sx={{ height: "100%" }}>
+    <Grid container>
       <Grid item md={3}>
         <Stack
           spacing={1}
           sx={{
-            height: "96vh",
             px: 1.8,
             py: 2.5,
             bgcolor: "#1a1d78",
@@ -87,10 +86,17 @@ function Home({ value, setValue }) {
           </Box>
 
           {/* Main content of this grid */}
-          {render()}
+          <Box
+            sx={{
+              height: "81vh",
+              overflow: "hidden",
+            }}
+          >
+            {render()}
+          </Box>
         </Stack>
       </Grid>
-      <Grid item md={6} sx={{ mt: 2 }}>
+      <Grid item md={6} sx={{ pt: 2 }}>
         <Messagelayout />
       </Grid>
       <Grid item md={3}>

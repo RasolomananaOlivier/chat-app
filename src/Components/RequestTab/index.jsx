@@ -51,7 +51,9 @@ export default function RequestTab() {
 
   return (
     <List
-      sx={{ p: 0, height: "100%", overflowY: "scroll" }}
+      sx={{
+        p: 0,
+      }}
       className="disable-scrollbar"
     >
       <Stack spacing={1} sx={{ width: "100%" }}>
