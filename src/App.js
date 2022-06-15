@@ -19,11 +19,10 @@ let persistor = persistStore(store);
 function App() {
 
   const location = useLocation();
-  console.log(location);
+
   return (
 
-    <div style={{ height: '100vh', margin: 0 }
-    } >
+    <div style={{ height: '100vh', margin: 0 }} >
       <Provider store={store} >
         <PersistGate persistor={persistor} >
           <AnimatePresence exitBeforeEnter >
