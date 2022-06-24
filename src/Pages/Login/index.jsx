@@ -91,32 +91,6 @@ export default function Signup() {
         >
           <CssBaseline />
           <Grid item xs={false} sm={4} md={7}>
-            <Typography
-              variant="h3"
-              sx={{
-                zIndex: 2,
-                position: "absolute",
-                top: "40%",
-                left: "7%",
-                color: "white",
-              }}
-            >
-              {" "}
-              Your community misses you
-            </Typography>
-            <Typography
-              variant="h5"
-              sx={{
-                zIndex: 2,
-                position: "absolute",
-                top: "50%",
-                left: "23%",
-                color: "white",
-              }}
-            >
-              {" "}
-              Join them !
-            </Typography>
             <img
               src={Background}
               style={{ height: "100vh" }}

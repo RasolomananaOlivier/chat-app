@@ -42,7 +42,7 @@ export default function MessageUser({
     <Box
       sx={{
         width: "100%",
-        mt: 2,
+        mt: 1,
       }}
       onMouseOver={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -104,12 +104,7 @@ export default function MessageUser({
           <>
             <Paper
               elevation={0}
-              sx={{
-                maxWidth: 260,
-                p: 0,
-
-                color: "white",
-              }}
+              sx={{ maxWidth: 260, p: 0, m: 0, border: "dotted" }}
             >
               <img
                 width={260}
@@ -125,7 +120,6 @@ export default function MessageUser({
                 }}
                 onClick={() => setShowModal(true)}
               />
-              ;
             </Paper>
             <ModalImageViewer
               showModal={showModal}

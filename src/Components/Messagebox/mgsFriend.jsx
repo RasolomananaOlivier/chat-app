@@ -56,7 +56,7 @@ export default function MessageFriend({
     <Box
       sx={{
         width: 615,
-        mt: !sameAuth ? 2 : 1,
+        mt: !sameAuth ? 1.5 : 0.5,
       }}
       ref={containerRef}
       onMouseOver={() => setHovered(true)}
@@ -136,12 +136,11 @@ export default function MessageFriend({
                 p: 0,
                 ml: !sameAuth ? "0" : "4.6rem",
                 color: "white",
-                maxHeight: 170,
               }}
             >
               <img
                 width={260}
-                height={170}
+                height="100%"
                 src={
                   mediaFileName !== undefined || mediaFileName !== ""
                     ? `${baseURL}/pic/avatar/${mediaFileName}`
@@ -153,7 +152,6 @@ export default function MessageFriend({
                 }}
                 onClick={() => setShowModal(true)}
               />
-              ;
             </Box>
             <ModalImageViewer
               showModal={showModal}

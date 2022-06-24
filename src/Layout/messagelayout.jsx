@@ -116,7 +116,7 @@ export default function Messagelayout() {
           overflowX: "hidden",
           overflowY: "scroll",
           py: 2,
-          height: "68vh",
+          height: "72vh",
         }}
         ref={containerRef}
         className="disable-scrollbar"
@@ -205,7 +205,7 @@ export default function Messagelayout() {
         sx={{
           position: "absolute",
           bottom: 0,
-          width: "47.7vw",
+          width: "47vw",
         }}
       >
         <SendField />
