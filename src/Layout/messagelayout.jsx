@@ -36,9 +36,10 @@ const userFriendVariants = {
   exit: { scale: 0, x: 200, opacity: 0, transition: { duration: 0.2 } },
 };
 
-export default function Messagelayout() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
+export default function Messagelayout({
+  openMessageDetail,
+  setOpenMessageDetail,
+}) {
   /* -- Message data from redux -- */
   const MessagesRedux = useSelector((state) => state.messages);
   const messageId = MessagesRedux._id;
@@ -47,8 +48,8 @@ export default function Messagelayout() {
   /* -- Get the current friend to render in the ui -- */
   const friendInfo = useSelector((state) => state.friend);
 
-  const showMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const showMenu = () => {
+    setOpenMessageDetail(!openMessageDetail);
   };
 
   /**
@@ -64,7 +65,12 @@ export default function Messagelayout() {
   }, [MessagesRedux]);
 
   return (
-    <Stack>
+    <Stack
+      sx={{
+        /*  border: "1px solid black", */ height: "100%",
+        position: "relative",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -72,6 +78,7 @@ export default function Messagelayout() {
           pl: 2,
           pr: 1,
           py: 1.5,
+          //   border: "1px solid red",
         }}
       >
         {friendInfo.hasOwnProperty("_id") ? (
@@ -103,7 +110,6 @@ export default function Messagelayout() {
         <IconButton aria-label="chat option" onClick={showMenu}>
           <Menu sx={iconsStyleSmall} />
         </IconButton>
-        <AccountMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
       </Box>
       <Divider
         sx={{
@@ -116,8 +122,10 @@ export default function Messagelayout() {
         sx={{
           overflowX: "hidden",
           overflowY: "scroll",
+          maxHeight: "71vh",
           py: 2,
-          height: "72vh",
+          flexGrow: 1,
+          //   border: "1px solid yellow",
         }}
         ref={containerRef}
         className="disable-scrollbar"
@@ -200,18 +208,7 @@ export default function Messagelayout() {
         )}
         <div ref={messageEnd}></div>
       </Stack>
-      {/**
-       * TODO: Find a way to make it works better
-       */}
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          width: "47vw",
-        }}
-      >
-        <SendField />
-      </Box>
+      <SendField />
     </Stack>
   );
 }

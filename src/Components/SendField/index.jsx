@@ -105,11 +105,13 @@ export default function SendField() {
     <Box
       sx={{
         display: "flex",
-
         borderRadius: "10px 10px 0 0",
         py: 1,
         px: 2,
         bgcolor: "#F3F4FD",
+        position: "absolute",
+        width: "95%",
+        bottom: 0,
       }}
     >
       <TextField

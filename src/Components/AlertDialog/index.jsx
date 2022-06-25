@@ -81,9 +81,6 @@ export default function AlertDialog({ open, handleClose }) {
         >
           Do really want to log out ?
         </DialogTitle>
-        {/*  <DialogContent>
-          <DialogContentText id="alert-dialog-description"></DialogContentText>
-        </DialogContent> */}
         <DialogActions
           sx={{
             p: 2,

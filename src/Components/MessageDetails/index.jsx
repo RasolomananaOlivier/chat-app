@@ -1,10 +1,11 @@
-import { Avatar, Box, Divider, List, Stack, Typography } from "@mui/material";
+import { Avatar, Box, List, Stack, Typography } from "@mui/material";
 
 import React from "react";
 import { useSelector } from "react-redux";
 import { baseURL } from "../../Config/server";
 import MediaAccordion from "../Accordion";
 import MemberAccordion from "../Accordion/MemberAccordion";
+import { ItemButtonDeleteMessage } from "./ItemButton";
 
 export const iconStyle = {
   borderRadius: "50%",
@@ -18,8 +19,9 @@ export default function MessageDetails() {
   return (
     <Stack
       sx={{
-        pt: 2,
         boxShadow: "0 0 2px rgba(0,0,0,0.3)",
+        // border: "1px solid red",
+        height: "100%",
       }}
     >
       <Box
@@ -29,6 +31,7 @@ export default function MessageDetails() {
           justifyContent: "center",
           flexDirection: "column",
           alignItems: "center",
+          mt: 1,
         }}
       >
         <Avatar
@@ -63,13 +66,17 @@ export default function MessageDetails() {
         </Typography>
       </Box>
       <List
-        sx={{ height: "64vh", overflowY: "scroll" }}
+        sx={{
+          height: "65.5vh",
+          overflowY: "scroll" /*  border: "1px solid red" */,
+        }}
         className="disable-scrollbar"
       >
         <MemberAccordion />
 
-        <Divider variant="inset" component="li" />
         <MediaAccordion />
+
+        <ItemButtonDeleteMessage />
       </List>
     </Stack>
   );

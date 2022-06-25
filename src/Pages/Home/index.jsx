@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -12,8 +12,17 @@ import "../../Assets/css/utils.css";
 import RecentMessage from "../../Components/RecentMessage";
 import RequestTab from "../../Components/RequestTab";
 import NotificationTab from "../../Components/NotificationTab.jsx";
+import {
+  AnimatePresence,
+  AnimateSharedLayout,
+  LayoutGroup,
+  motion,
+} from "framer-motion";
+import SendField from "src/Components/SendField";
 
 function Home({ value, setValue }) {
+  const [openMessageDetail, setOpenMessageDetail] = useState(true);
+
   const render = useCallback(() => {
     if (value === 0) {
       return <RecentMessage />;
@@ -25,14 +34,19 @@ function Home({ value, setValue }) {
   }, [value]);
 
   return (
-    <Grid container>
-      <Grid item md={3} sx={{ bgcolor: "#1a1d78" }}>
-        <Stack
-          spacing={1}
-          sx={{
-            height: "100vh",
-          }}
-        >
+    <Grid
+      container
+      sx={{
+        /* border: "1px solid green", */ height: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      <Grid
+        item
+        md={3}
+        sx={{ bgcolor: "#1a1d78" /*  border: "1px solid red" */ }}
+      >
+        <Stack spacing={1}>
           <Typography color="white" variant="h5" sx={{ px: 1.5, pt: 2 }}>
             {value === 0
               ? "Messages"
@@ -85,20 +99,54 @@ function Home({ value, setValue }) {
 
           <Box
             sx={{
-              height: "80vh",
+              height: "77vh",
               overflow: "hidden",
               px: 1.5,
+              //   border: "1px solid red",
             }}
           >
             {render()}
           </Box>
         </Stack>
       </Grid>
-      <Grid item md={6} sx={{ height: "100vh" }}>
-        <Messagelayout />
-      </Grid>
-      <Grid item md={3} sx={{ height: "100vh" }}>
-        <MessageDetails />
+      <Grid
+        item
+        md={9}
+        sx={{
+          display: "flex",
+        }}
+      >
+        <LayoutGroup>
+          <motion.div
+            layout
+            style={{
+              flexGrow: 1,
+
+              display: "flex",
+              flexDirection: "column",
+              //   border: "1px solid red",
+              position: "relative",
+            }}
+          >
+            <Messagelayout
+              openMessageDetail={openMessageDetail}
+              setOpenMessageDetail={setOpenMessageDetail}
+            />
+          </motion.div>
+          <AnimatePresence>
+            {openMessageDetail && (
+              <motion.div
+                initial={{ x: 400 }}
+                animate={{ x: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                exit={{ x: 400 }}
+                layout
+              >
+                <MessageDetails />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </LayoutGroup>
       </Grid>
     </Grid>
   );

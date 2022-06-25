@@ -31,12 +31,12 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import Alert from "@mui/material/Alert";
 import Close from "@mui/icons-material/Close";
+import { Box } from "@mui/material";
 
 function LayoutWithContext() {
   return (
     <SocketContext.Provider value={socket}>
-      {" "}
-      <Layout />{" "}
+      <Layout />
     </SocketContext.Provider>
   );
 }
@@ -128,12 +128,6 @@ function Layout() {
       socket.connect();
     });
 
-    socket.on("connect_error", () => {
-      setError(true);
-      setOpen(true);
-      setMessage("Disconnected from the server");
-    });
-
     return () => {
       console.log("unmounted");
       socket.close();
@@ -147,6 +141,10 @@ function Layout() {
       setError(false);
       setOpen(true);
       setMessage("Connected to the server");
+    } else {
+      setError(true);
+      setOpen(true);
+      setMessage("Disconnected from the server");
     }
   }, [socket.connected]);
 

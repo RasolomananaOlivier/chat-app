@@ -15,7 +15,7 @@ function About() {
     >
       <Box
         sx={{
-          width: "93vw",
+          width: "93.75vw",
           display: "flex",
           justifyContent: "center",
           flexDirection: "column",
