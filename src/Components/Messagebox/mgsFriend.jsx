@@ -12,7 +12,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function MessageFriend({
   containerRef,
-  id,
+  messageId,
+  itemId,
   type,
   content,
   mediaFileName,
@@ -146,7 +147,7 @@ export default function MessageFriend({
                     ? `${baseURL}/pic/avatar/${mediaFileName}`
                     : null
                 }
-                alt={id}
+                alt={itemId}
                 style={{
                   borderRadius: "20px",
                 }}
@@ -173,7 +174,12 @@ export default function MessageFriend({
           </Box>
         ) : null}
 
-        <MessageMenu anchorEl={anchorEl} setAnchorEl={setAnchorEl} id={id} />
+        <MessageMenu
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          itemId={itemId}
+          messageId={messageId}
+        />
       </Box>
     </Box>
   );

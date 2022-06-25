@@ -8,20 +8,25 @@ import Divider from "@mui/material/Divider";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteOne } from "../../Services/Data/messageSlice";
+import { deleteHasCopy } from "src/Services/Api/allmessage";
+import { updateOneCollection } from "src/Services/Data/messagesArraySlice";
 
-export function MessageMenu2({ anchorEl, setAnchorEl, id }) {
+export function MessageMenu2({ anchorEl, setAnchorEl, itemId, messageId }) {
   const open = Boolean(anchorEl);
+  const userId = useSelector((state) => state.user._id);
+
   const dispatch = useDispatch();
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleRemove = () => {
-    // console.log(msg);
-    dispatch(deleteOne(id));
+  const handleRemove = async () => {
+    const messageUpdated = await deleteHasCopy({ messageId, itemId, userId });
+    dispatch(updateOneCollection(messageUpdated));
+    dispatch(deleteOne(itemId));
     setAnchorEl(null);
   };
 
@@ -66,8 +71,9 @@ export function MessageMenu2({ anchorEl, setAnchorEl, id }) {
   );
 }
 
-export function MessageMenu({ anchorEl, setAnchorEl, id }) {
+export function MessageMenu({ anchorEl, setAnchorEl, itemId, messageId }) {
   const open = Boolean(anchorEl);
+  const userId = useSelector((state) => state.user._id);
 
   const dispatch = useDispatch();
 
@@ -75,9 +81,12 @@ export function MessageMenu({ anchorEl, setAnchorEl, id }) {
     setAnchorEl(null);
   };
 
-  const handleRemove = () => {
-    // console.log(msg);
-    dispatch(deleteOne(id));
+  const handleRemove = async () => {
+    // console.log("handleRemove clicked");
+    const messageUpdated = await deleteHasCopy({ messageId, itemId, userId });
+    // console.log(messageUpdated);
+    dispatch(updateOneCollection(messageUpdated));
+    dispatch(deleteOne(itemId));
     setAnchorEl(null);
   };
   return (

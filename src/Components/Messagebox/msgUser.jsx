@@ -8,7 +8,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function MessageUser({
   containerRef,
-  id,
+  messageId,
+  itemId,
   content,
   type,
   mediaFileName,
@@ -64,7 +65,12 @@ export default function MessageUser({
         ) : null}
 
         {/* Show the message menu */}
-        <MessageMenu2 anchorEl={anchorEl} setAnchorEl={setAnchorEl} id={id} />
+        <MessageMenu2
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          itemId={itemId}
+          messageId={messageId}
+        />
 
         {type === "text" ? (
           <Box>
@@ -114,7 +120,7 @@ export default function MessageUser({
                     ? `${baseURL}/pic/avatar/${mediaFileName}`
                     : null
                 }
-                alt={id}
+                alt={itemId}
                 style={{
                   borderRadius: "20px",
                 }}

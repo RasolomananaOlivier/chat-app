@@ -79,14 +79,14 @@ export default function SendField() {
   const handleTextSender = () => {
     const date = new Date();
     const dateFormated = `${date.getDate()} ${date.getMonth()} ${date.getFullYear()}`;
-    console.log(dateFormated);
+    // console.log(dateFormated);
     if (value !== "") {
       const payload = {
-        id: date.toString(),
         auth: `${user._id}`,
         messageType: "text",
         content: value,
         timeStamp: dateFormated,
+        hasCopy: [user._id, friend._id],
       };
       /*userId, friendId,  messageId  */
       const data = {

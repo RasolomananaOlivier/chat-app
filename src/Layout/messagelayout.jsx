@@ -41,6 +41,7 @@ export default function Messagelayout() {
 
   /* -- Message data from redux -- */
   const MessagesRedux = useSelector((state) => state.messages);
+  const messageId = MessagesRedux._id;
   const user = useSelector((state) => state.user);
 
   /* -- Get the current friend to render in the ui -- */
@@ -146,51 +147,52 @@ export default function Messagelayout() {
                   nextMessageAuth = MessagesRedux.items[index + 1].auth;
                 }
 
-                /**
-                 * TODO: Remove it
-                 */
-                if (msg.auth === `${user._id}`) {
-                  return (
-                    <motion.div
-                      key={msg._id}
-                      variants={userFriendVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                    >
-                      <MessageUser
-                        containerRef={containerRef}
-                        id={msg._id}
-                        type={msg.messageType}
-                        content={msg.content}
-                        mediaFileName={msg?.mediaId}
-                        sameAuth={msg.auth === previousMessageAuth}
-                        isNextDifferent={msg.auth !== nextMessageAuth}
-                        time={msg.timeStamp}
-                      />
-                    </motion.div>
-                  );
-                } else {
-                  return (
-                    <motion.div
-                      key={msg._id}
-                      variants={messageFriendVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                    >
-                      <MessageFriend
-                        containerRef={containerRef}
-                        id={msg._id}
-                        type={msg.messageType}
-                        content={msg.content}
-                        mediaFileName={msg?.mediaId}
-                        sameAuth={msg.auth === previousMessageAuth}
-                        isNextDifferent={msg.auth !== nextMessageAuth}
-                        time={msg.timeStamp}
-                      />
-                    </motion.div>
-                  );
+                if (msg.hasCopy.includes(user._id)) {
+                  if (msg.auth === `${user._id}`) {
+                    return (
+                      <motion.div
+                        key={msg._id}
+                        variants={userFriendVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                      >
+                        <MessageUser
+                          containerRef={containerRef}
+                          itemId={msg._id}
+                          messageId={messageId}
+                          type={msg.messageType}
+                          content={msg.content}
+                          mediaFileName={msg?.mediaId}
+                          sameAuth={msg.auth === previousMessageAuth}
+                          isNextDifferent={msg.auth !== nextMessageAuth}
+                          time={msg.timeStamp}
+                        />
+                      </motion.div>
+                    );
+                  } else {
+                    return (
+                      <motion.div
+                        key={msg._id}
+                        variants={messageFriendVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                      >
+                        <MessageFriend
+                          containerRef={containerRef}
+                          itemId={msg._id}
+                          messageId={messageId}
+                          type={msg.messageType}
+                          content={msg.content}
+                          mediaFileName={msg?.mediaId}
+                          sameAuth={msg.auth === previousMessageAuth}
+                          isNextDifferent={msg.auth !== nextMessageAuth}
+                          time={msg.timeStamp}
+                        />
+                      </motion.div>
+                    );
+                  }
                 }
               })}
             </AnimatePresence>
