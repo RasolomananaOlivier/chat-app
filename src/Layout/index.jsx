@@ -27,6 +27,10 @@ import { fetchingTheFriendsCollections } from "../Services/Data/friendscollectio
 import { addNewMessage } from "../Services/Data/messageSlice";
 import { updateMedias } from "../Services/Data/mediaSlice";
 import SettingLayout from "./settingLayout";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import Alert from "@mui/material/Alert";
+import Close from "@mui/icons-material/Close";
 
 function LayoutWithContext() {
   return (
@@ -39,11 +43,20 @@ function LayoutWithContext() {
 
 function Layout() {
   const [value, setValue] = useState(0);
+  const [error, setError] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("Disconnected from the server");
+
   const user = useSelector((state) => state.user);
   const userId = user._id;
   const socket = useContext(SocketContext);
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     getAllMessage(userId)
       .then((result) => {
@@ -115,6 +128,12 @@ function Layout() {
       socket.connect();
     });
 
+    socket.on("connect_error", () => {
+      setError(true);
+      setOpen(true);
+      setMessage("Disconnected from the server");
+    });
+
     return () => {
       console.log("unmounted");
       socket.close();
@@ -122,21 +141,56 @@ function Layout() {
     // eslint-disable-next-line
   }, []);
 
+  console.log("socket.connected", socket.connected);
+  useEffect(() => {
+    if (socket.connected) {
+      setError(false);
+      setOpen(true);
+      setMessage("Connected to the server");
+    }
+  }, [socket.connected]);
+
   return (
-    <Grid container columns={16}>
-      <Grid item lg={1}>
-        <SideNavigation value={value} setValue={setValue} />
+    <>
+      <Grid container columns={16}>
+        <Grid item lg={1}>
+          <SideNavigation value={value} setValue={setValue} />
+        </Grid>
+        <Grid item lg={15} /* sx={{ border: "1px solid black" }} */>
+          {[0, 1, 2].includes(value) ? (
+            <Home value={value} setValue={setValue} />
+          ) : value === 3 ? (
+            <SettingLayout />
+          ) : value === 4 ? (
+            <About />
+          ) : null}
+        </Grid>
       </Grid>
-      <Grid item lg={15} /* sx={{ border: "1px solid black" }} */>
-        {[0, 1, 2].includes(value) ? (
-          <Home value={value} setValue={setValue} />
-        ) : value === 3 ? (
-          <SettingLayout />
-        ) : value === 4 ? (
-          <About />
-        ) : null}
-      </Grid>
-    </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        open={open}
+        onClose={handleClose}
+        autoHideDuration={8000}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        }
+      >
+        <Alert
+          severity={error ? "error" : "success"}
+          variant="filled"
+          onClose={handleClose}
+        >
+          {message}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 export default LayoutWithContext;
