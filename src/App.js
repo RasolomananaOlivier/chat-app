@@ -31,7 +31,7 @@ function App() {
                 height='100vh'
                 paddingX={2}>
                 <Typography variant='h6'>
-                    Unfortunatily, You must use a laptop to use this app correctly.
+                    Unfortunately, You must use a laptop to use this app correctly.
                     Alternatively, you can download the mobile app version in the link below.
 
                 </Typography>
