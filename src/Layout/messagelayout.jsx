@@ -1,7 +1,7 @@
+/* eslint-disable array-callback-return */
 import { Box, Avatar, IconButton, Divider, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import Stack from "@mui/material/Stack";
-import AccountMenu from "../Components/Menu";
 import { Menu } from "@mui/icons-material";
 import MessageUser from "../Components/Messagebox/msgUser";
 import MessageFriend from "../Components/Messagebox/mgsFriend";

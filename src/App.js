@@ -33,7 +33,6 @@ function App() {
                 <Typography variant='h6'>
                     Unfortunately, You must use a laptop to use this app correctly.
                     Alternatively, you can download the mobile app version in the link below.
-
                 </Typography>
                 <Link> Ah! Oops I don't build it yet.Sorry! </Link>
             </Box>

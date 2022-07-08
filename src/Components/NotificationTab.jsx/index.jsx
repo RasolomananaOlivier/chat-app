@@ -4,10 +4,7 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import NotificationBox from "./notificationBox";
 import { motion } from "framer-motion";
-import {
-  NotificationAddTwoTone,
-  NotificationsNoneTwoTone,
-} from "@mui/icons-material";
+import { NotificationsNoneTwoTone } from "@mui/icons-material";
 
 const listVariants = {
   hidden: {

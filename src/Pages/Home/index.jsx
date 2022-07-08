@@ -12,13 +12,7 @@ import "../../Assets/css/utils.css";
 import RecentMessage from "../../Components/RecentMessage";
 import RequestTab from "../../Components/RequestTab";
 import NotificationTab from "../../Components/NotificationTab.jsx";
-import {
-  AnimatePresence,
-  AnimateSharedLayout,
-  LayoutGroup,
-  motion,
-} from "framer-motion";
-import SendField from "src/Components/SendField";
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 
 function Home({ value, setValue }) {
   const [openMessageDetail, setOpenMessageDetail] = useState(true);
