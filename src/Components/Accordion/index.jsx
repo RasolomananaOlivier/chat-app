@@ -11,7 +11,7 @@ import { iconsStyleSmall } from "../VerticalTabs";
 
 export default function MediaAccordion() {
   return (
-    <Accordion defaultExpanded>
+    <Accordion>
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"

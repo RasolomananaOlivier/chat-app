@@ -1,37 +1,44 @@
 .disable-scrollbar {
-  scrollbar-width: none;
+    scrollbar-width: none;
 }
 
+
 .disable-scrollbar::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1rem;
 
 }
 
 .background {
-  background-image: url('../img/curved0.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
+    background-image: url('../img/curved0.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login-background {
+    background-image: url('../img/bg-loginf.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .background-signup {
-  background-image: url('../img/ce9f2a54c700d2931e87571d185429d3.jpg');
+    background-image: url('../img/ce9f2a54c700d2931e87571d185429d3.jpg');
 
-  background-repeat: no-repeat;
-  background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .last-message {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
 
 }

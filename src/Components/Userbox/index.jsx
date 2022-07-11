@@ -60,7 +60,14 @@ const StyledBadgeOffline = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export default function Userbox({ active, name, id, avatarFileName, online }) {
+export default function Userbox({
+  active,
+  name,
+  id,
+  avatarFileName,
+  online,
+  handleOpenMessage,
+}) {
   const [myLastMessage, setMyLastMessage] = useState(null);
 
   const listMessages = useSelector((state) => state.messagesArray);
@@ -125,6 +132,7 @@ export default function Userbox({ active, name, id, avatarFileName, online }) {
       );
       dispatch(updateAfterReading(readMessageUpdated));
     }
+    handleOpenMessage();
   };
 
   useEffect(() => {

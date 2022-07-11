@@ -93,7 +93,12 @@ export default function Step3() {
           noValidate
           onSubmit={formik.handleSubmit}
         >
-          <Grid item lg={12} sx={{ pr: 2, mb: 5 }}>
+          <Grid
+            item
+            xs={12}
+            lg={6}
+            sx={{ pr: { xs: 0, lg: 2 }, mb: { xs: 3, lg: 5 } }}
+          >
             <TextField
               label="Bio"
               placeholder="Tell about yourself"
@@ -126,7 +131,7 @@ export default function Step3() {
           </Grid>
           <Grid
             item
-            lg={12}
+            xs={12}
             sx={{
               pr: 2,
               mb: 5,
