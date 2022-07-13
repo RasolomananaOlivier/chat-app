@@ -23,8 +23,8 @@ import {
     addRequestFriend,
     fetchRequestFromTheServer,
 } from "../Services/Data/requestSlice";
-import { fetchingTheFriendsCollections } from "../Services/Data/friendscollectionsSlice";
-import { addNewMessage } from "../Services/Data/messageSlice";
+import { fetchingTheFriendsCollections } from "src/Services/Data/friends/friendscollectionsSlice";
+import { addNewMessage, updateMessageUI } from "../Services/Data/messageSlice";
 import { updateMedias } from "../Services/Data/mediaSlice";
 import SettingLayout from "./settingLayout";
 import Snackbar from "@mui/material/Snackbar";
@@ -32,6 +32,9 @@ import IconButton from "@mui/material/IconButton";
 import Alert from "@mui/material/Alert";
 import Close from "@mui/icons-material/Close";
 import { AppBar, Button } from "@mui/material";
+import { updateNickName } from "src/Services/Data/user/userSlice";
+import { findOnefriend } from "src/Components/Userbox";
+import { updateFriendData } from "src/Services/Data/friends/friendSlice";
 
 function LayoutWithContext() {
     return (
@@ -48,6 +51,8 @@ function Layout() {
     const [message, setMessage] = useState("Disconnected from the server");
 
     const user = useSelector((state) => state.user);
+    const currentMessageId = useSelector(state => state.messages._id)
+    const friendCollections = useSelector((state) => state.friendsCollections);
     const userId = user._id;
     const socket = useContext(SocketContext);
 
@@ -77,6 +82,8 @@ function Layout() {
             console.log("connected ?", socket.connected);
         });
 
+        socket.emit("USER_CONNECTED", userId);
+
         socket.on(`${user._id}_NEW_NOTIFICATION`, (data, message, media) => {
             console.log("notify", data, message);
             dispatch(fetchNotificationsFromTheServer(data.notificationsCollections));
@@ -94,7 +101,7 @@ function Layout() {
 
         socket.on(`${user._id}_NEW_FRIEND_ACCEPTED`, (data, message, media) => {
             console.log("accepted request", data, message);
-
+            dispatch(updateNickName(data.nickName));
             dispatch(fetchingTheFriendsCollections(data.friendsCollections));
             dispatch(fetchRequestFromTheServer(data.requests));
             dispatch(addOneMessageCollection(message));
@@ -122,6 +129,20 @@ function Layout() {
                     dispatch(updateMedias(mediaData));
                 }
             }
+        });
+
+        //`${userId}_NEW_NICKNAME`
+
+        socket.on(`${user._id}_NEW_NICKNAME`, (data) => {
+            dispatch(updateNickName(data.newUserNicknameList));
+            dispatch(fetchingTheFriendsCollections(data.newUserFriendsCollection))
+
+            if (data.messageId === currentMessageId) {
+                const correctFriend = findOnefriend(data.newUserFriendsCollection, data.friendId);
+                console.log('correctFriend :>> ', correctFriend);
+                dispatch(updateFriendData(correctFriend));
+            }
+
         });
 
         socket.on("disconnect", () => {

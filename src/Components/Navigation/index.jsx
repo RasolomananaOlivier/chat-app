@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
 /* MUI Component */
 import Stack from "@mui/material/Stack";
@@ -9,9 +9,6 @@ import Badge from "@mui/material/Badge";
 import VerticalTabs from "../VerticalTabs";
 import { useSelector } from "react-redux";
 import { baseURL } from "../../Config/server";
-import { SocketContext } from "../../Config/socket";
-import { useTheme } from "@emotion/react";
-import { useMediaQuery } from "@mui/material";
 
 /* Item style */
 
@@ -29,13 +26,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 function SideNavigation({ value, setValue }) {
     const user = useSelector((state) => state.user);
-
-    const socket = useContext(SocketContext);
-
-    useEffect(() => {
-        socket.emit("USER_CONNECTED", user._id);
-        // eslint-disable-next-line
-    }, []);
     return (
         <Stack
             direction={{ xs: "row", md: "column", }}

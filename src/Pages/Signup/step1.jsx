@@ -13,7 +13,7 @@ import {
 import { useFormik } from "formik";
 import { validateSignup } from "./validation";
 import { useDispatch } from "react-redux";
-import { updateTheUserInfo } from "../../Services/Data/infoSlice";
+import { updateTheUserInfo } from "../../Services/Data/user/userSlice";
 import { motion } from "framer-motion";
 import { fadeIn } from "./slideIn";
 
@@ -21,7 +21,6 @@ export default function Step1({
     handleComplete,
     activeStep,
     completed,
-    getSignUp,
 }) {
     const dispatch = useDispatch();
     const formik = useFormik({

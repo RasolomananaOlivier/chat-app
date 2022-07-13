@@ -66,6 +66,7 @@ export default function VerticalTabs({ value, setValue }) {
 
     const unreadMessages = React.useMemo(() => {
         let count = [];
+        console.log('messagesArray :>> ', messagesArray);
         messagesArray.forEach((msg) => {
             if (!msg.read) {
                 // console.log(msg);

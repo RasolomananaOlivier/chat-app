@@ -1,21 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import DefaultCollection from 'src/Services/Data/friends/default.json'
 
-let initialState = {
-    _id: '2',
-    lastName: 'Joe',
-    firstName: 'Doe',
-    avatarFileName: '',
-    email: 'joe@gmail.com',
-    bio: 'lorem lorem lorem',
-
-}
+let initialState = DefaultCollection
 
 const friendSlice = createSlice({
     initialState,
     name: 'friend',
     reducers: {
         updateFriendData: (state, action) => {
-
             return {
                 ...action.payload
             }

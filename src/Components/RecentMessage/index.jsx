@@ -45,10 +45,8 @@ export default function RecentMessage({ handleOpenMessage }) {
     /*-- Get all friends --- */
     const friendStore = useSelector((state) => state.friendsCollections);
     const friend = useSelector((state) => state.friend);
-    console.log('friendStore :>> ', friendStore);
 
     useEffect(() => {
-        // console.log(friendStore);
         setlistFriends([...friendStore]);
     }, [friendStore]);
 
@@ -63,7 +61,7 @@ export default function RecentMessage({ handleOpenMessage }) {
                     animate="visible"
                     exit="exit"
                 >
-                    {listFriends.map((item) => (
+                    {friendStore.map((item) => (
                         <motion.div key={item._id} variants={listVariants}>
                             <Userbox
                                 name={`${item.lastName} ${item.firstName}`}

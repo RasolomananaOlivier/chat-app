@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RemoveAccountDialog } from "../../Components/AlertDialog";
 import { updateAccount } from "../../Services/Api/updateAccount";
-import { updateAllUserData } from "../../Services/Data/infoSlice";
+import { updateAllUserData } from "../../Services/Data/user/userSlice";
 
 function Setting() {
     const userInfo = useSelector((state) => state.user);

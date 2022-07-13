@@ -17,7 +17,7 @@ import { useFormik } from "formik";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateTheUserPasswd } from "../../Services/Data/infoSlice";
+import { updateTheUserPasswd } from "../../Services/Data/user/userSlice";
 import { fadeIn } from "./slideIn";
 import { validatePassword } from "./validation";
 

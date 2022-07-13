@@ -62,10 +62,10 @@ export default function SendField() {
                     mediaId: result.avatarFileName,
                     timeStamp: dateFormated,
                     hasCopy: [user._id, friend._id],
+                    reactions: []
                 };
                 /*userId, friendId,  messageId  */
                 const data = {
-
                     userId: user._id,
                     friendId: friend._id,
                     messagesId: messages._id,
@@ -91,6 +91,7 @@ export default function SendField() {
                 content: value,
                 timeStamp: dateFormated,
                 hasCopy: [user._id, friend._id],
+                reactions: []
             };
             /*userId, friendId,  messageId  */
             const data = {

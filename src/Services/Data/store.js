@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from './infoSlice'
+import userReducer from './user/userSlice'
 import messageReducer from "./messageSlice";
-import friendsCollectionsReducer from "./friendscollectionsSlice";
+import friendsCollectionsReducer from "./friends/friendscollectionsSlice";
 import messagesReducer from "./messagesArraySlice";
 import mediaReducer from './mediaSlice'
 import mediasCollections from "./allMediasSlice";
-import friendReducer from "./friendSlice";
+import friendReducer from "./friends/friendSlice";
 import requestSlice from './requestSlice'
 import notificationReducer from "./notificationSlice";
 

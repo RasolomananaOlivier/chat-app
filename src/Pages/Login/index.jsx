@@ -12,15 +12,14 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Background from "../../Assets/img/curved-6.jpg";
 import Bg2 from '../../Assets/img/customer.png'
 import { useFormik } from "formik";
 import { validateLogin } from "../Signup/validation";
 import { login } from "../../Services/Api/login";
 import { useDispatch } from "react-redux";
-import { updateAllUserData } from "../../Services/Data/infoSlice";
+import { updateAllUserData } from "../../Services/Data/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { fetchingTheFriendsCollections } from "../../Services/Data/friendscollectionsSlice";
+import { fetchingTheFriendsCollections } from "src/Services/Data/friends/friendscollectionsSlice";
 import { fetchNotificationsFromTheServer } from "../../Services/Data/notificationSlice";
 import { fetchRequestFromTheServer } from "../../Services/Data/requestSlice";
 import { motion } from "framer-motion";
@@ -65,7 +64,7 @@ export default function Signup() {
         onSubmit: (values) => {
             login(values)
                 .then((response) => {
-                    console.log(response);
+                    console.log('login submit', response.user.friendsCollections);
                     if (response.isRegistered) {
                         dispatch(updateAllUserData(response.user));
                         dispatch(
