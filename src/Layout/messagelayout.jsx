@@ -11,10 +11,10 @@ import {
 import React, { useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import { ArrowBackIos, Menu } from "@mui/icons-material";
-import MessageUser from "../Components/Messagebox/msgUser";
-import MessageFriend from "../Components/Messagebox/mgsFriend";
-import SendField from "../Components/SendField";
-import { iconsStyleSmall } from "../Components/VerticalTabs";
+import MessageUser from "../Components/Box/Messagebox/msgUser";
+import MessageFriend from "../Components/Box/Messagebox/mgsFriend";
+import SendField from "../Components/Input/SendField";
+import { iconsStyleSmall } from "../Components/Navigation/VerticalTabs";
 import { useSelector } from "react-redux";
 
 import { baseURL } from "../Config/server";

@@ -19,13 +19,13 @@ const infoSlice = createSlice({
         updateAllUserData: (state, action) => {
             return action.payload;
         },
-        updateNickName: (state, action) => {
+        updatepseudos: (state, action) => {
             console.log('payload :>> ', action.payload);
-            state.nickName = action.payload;
+            state.pseudos = action.payload;
         }
     }
 })
 
-export const { updateTheUserInfo, updateTheUserPasswd, updateAllUserData, updateNickName } = infoSlice.actions;
+export const { updateTheUserInfo, updateTheUserPasswd, updateAllUserData, updatepseudos } = infoSlice.actions;
 
 export default infoSlice.reducer;

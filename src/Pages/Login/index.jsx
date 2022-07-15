@@ -15,7 +15,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Bg2 from '../../Assets/img/customer.png'
 import { useFormik } from "formik";
 import { validateLogin } from "../Signup/validation";
-import { login } from "../../Services/Api/login";
 import { useDispatch } from "react-redux";
 import { updateAllUserData } from "../../Services/Data/user/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +23,8 @@ import { fetchNotificationsFromTheServer } from "../../Services/Data/notificatio
 import { fetchRequestFromTheServer } from "../../Services/Data/requestSlice";
 import { motion } from "framer-motion";
 import { useMediaQuery, useTheme } from "@mui/material";
-
+import { Auth } from "src/Services/Api/auth";
+import Logo from 'src/Assets/img/logo.png'
 
 function Copyright(props) {
     return (
@@ -62,9 +62,9 @@ export default function Signup() {
             return validateLogin(values);
         },
         onSubmit: (values) => {
-            login(values)
+            Auth.login(values)
                 .then((response) => {
-                    console.log('login submit', response.user.friendsCollections);
+                    // console.log('login submit', response.user.friendsCollections);
                     if (response.isRegistered) {
                         dispatch(updateAllUserData(response.user));
                         dispatch(
@@ -125,9 +125,7 @@ export default function Signup() {
                             }}>
                             {!smallScreen && (
                                 <>
-                                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                                        <LockOutlinedIcon />
-                                    </Avatar>
+                                    <Avatar src={Logo} sx={{ m: 1, width: 80, height: 80 }} />
                                     <Typography component="h1" variant="h5">
                                         Sign in
                                     </Typography>

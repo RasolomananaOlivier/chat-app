@@ -10,9 +10,8 @@ import {
     addOneMessageCollection,
     addOneMessageToOneCollection,
     fetchMessageCollectionFromServer,
-} from "../Services/Data/messagesArraySlice";
-import { getAllMedias } from "../Services/Api/allmedia";
-import { getAllMessage } from "../Services/Api/allmessage";
+} from "../Services/Data/messages/messagesArraySlice";
+import { Messages } from "../Services/Api/messages";
 import {
     addOneMedia,
     addOneMediaIdToOneMediaCollection,
@@ -24,7 +23,7 @@ import {
     fetchRequestFromTheServer,
 } from "../Services/Data/requestSlice";
 import { fetchingTheFriendsCollections } from "src/Services/Data/friends/friendscollectionsSlice";
-import { addNewMessage, updateMessageUI } from "../Services/Data/messageSlice";
+import { addNewMessage, updateMessageUI } from "../Services/Data/messages/messageSlice";
 import { updateMedias } from "../Services/Data/mediaSlice";
 import SettingLayout from "./settingLayout";
 import Snackbar from "@mui/material/Snackbar";
@@ -32,9 +31,10 @@ import IconButton from "@mui/material/IconButton";
 import Alert from "@mui/material/Alert";
 import Close from "@mui/icons-material/Close";
 import { AppBar, Button } from "@mui/material";
-import { updateNickName } from "src/Services/Data/user/userSlice";
-import { findOnefriend } from "src/Components/Userbox";
+import { updatepseudos } from "src/Services/Data/user/userSlice";
+import { findOnefriend } from "src/Components/Box/Userbox";
 import { updateFriendData } from "src/Services/Data/friends/friendSlice";
+import { Medias } from "src/Services/Api/medias";
 
 function LayoutWithContext() {
     return (
@@ -63,16 +63,13 @@ function Layout() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getAllMessage(userId)
-            .then((result) => {
-                dispatch(fetchMessageCollectionFromServer(result));
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        getAllMedias(userId)
-            .then((result) => {
-                dispatch(fetchMediasCollectionsFromTheServer(result));
+        Promise.all([
+            Messages.getAll(userId),
+            Medias.getAll(userId)
+        ])
+            .then(result => {
+                dispatch(fetchMessageCollectionFromServer(result[0]));
+                dispatch(fetchMediasCollectionsFromTheServer(result[1]));
             })
             .catch((err) => {
                 console.log(err);
@@ -101,7 +98,7 @@ function Layout() {
 
         socket.on(`${user._id}_NEW_FRIEND_ACCEPTED`, (data, message, media) => {
             console.log("accepted request", data, message);
-            dispatch(updateNickName(data.nickName));
+            dispatch(updatepseudos(data.pseudos));
             dispatch(fetchingTheFriendsCollections(data.friendsCollections));
             dispatch(fetchRequestFromTheServer(data.requests));
             dispatch(addOneMessageCollection(message));
@@ -131,10 +128,10 @@ function Layout() {
             }
         });
 
-        //`${userId}_NEW_NICKNAME`
+        //`${userId}_NEW_pseudos`
 
-        socket.on(`${user._id}_NEW_NICKNAME`, (data) => {
-            dispatch(updateNickName(data.newUserNicknameList));
+        socket.on(`${user._id}_NEW_pseudos`, (data) => {
+            dispatch(updatepseudos(data.newUserpseudosList));
             dispatch(fetchingTheFriendsCollections(data.newUserFriendsCollection))
 
             if (data.messageId === currentMessageId) {

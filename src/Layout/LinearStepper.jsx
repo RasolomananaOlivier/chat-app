@@ -6,10 +6,10 @@ import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Grid, useMediaQuery, useTheme } from "@mui/material";
-import Step1 from "../Pages/Signup/step1";
-import Step2 from "../Pages/Signup/step2";
-import Step3 from "../Pages/Signup/step3";
 import { AnimatePresence } from "framer-motion";
+import Step1 from "src/Pages/Signup/steps/step1";
+import Step2 from "src/Pages/Signup/steps/step2";
+import Step3 from "src/Pages/Signup/steps/step3";
 
 const steps = ["Information", "Password", "Bio"];
 
@@ -113,21 +113,7 @@ export default function HorizontalNonLinearStepper() {
                             <Box>
                                 <Box sx={{ mt: 4, height: "25rem" }}>
                                     <AnimatePresence exitBeforeEnter>
-                                        {activeStep === 0 ? (
-                                            <Step1
-                                                handleComplete={handleComplete}
-                                                activeStep={activeStep}
-                                                completed={completed}
-                                            />
-                                        ) : activeStep === 1 ? (
-                                            <Step2
-                                                handleComplete={handleComplete}
-                                                activeStep={activeStep}
-                                                completed={completed}
-                                            />
-                                        ) : (
-                                            <Step3 />
-                                        )}
+                                        <ActiveStep handleComplete={handleComplete} activeStep={activeStep} completed={completed} />
                                     </AnimatePresence>
                                 </Box>
                                 <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
@@ -140,4 +126,23 @@ export default function HorizontalNonLinearStepper() {
             </Grid>
         </Box>
     );
+}
+
+function ActiveStep({ handleComplete, activeStep, completed }) {
+    switch (activeStep) {
+        case 0:
+            return <Step1
+                handleComplete={handleComplete}
+                activeStep={activeStep}
+                completed={completed}
+            />
+        case 1:
+            return <Step2
+                handleComplete={handleComplete}
+                activeStep={activeStep}
+                completed={completed}
+            />
+        default:
+            return <Step3 />;
+    }
 }

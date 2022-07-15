@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
-import VerticalTabs from "../VerticalTabs";
+import VerticalTabs from "./VerticalTabs";
 import { useSelector } from "react-redux";
 import { baseURL } from "../../Config/server";
 

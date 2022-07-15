@@ -2,8 +2,8 @@ import { Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RemoveAccountDialog } from "../../Components/AlertDialog";
-import { updateAccount } from "../../Services/Api/updateAccount";
+import { RemoveAccountDialog } from "src/Components/Displays/AlertDialog";
+import { Users } from "src/Services/Api/users";
 import { updateAllUserData } from "../../Services/Data/user/userSlice";
 
 function Setting() {
@@ -34,7 +34,7 @@ function Setting() {
                 _id: userInfo._id,
                 ...values,
             };
-            updateAccount(data)
+            Users.updateAccount(data)
                 .then((result) => {
                     console.log("after update", result);
                     dispatch(updateAllUserData(result));

@@ -2,8 +2,8 @@ import { Button, Grid, Stack, TextField } from "@mui/material";
 import SecurityIllustration from "../../Assets/img/security.jpg";
 import { useFormik } from "formik";
 import { validatePasswordUpdating } from "../Signup/validation";
-import updatePassword from "../../Services/Api/updatePassword";
 import { useSelector } from "react-redux";
+import { Users } from "src/Services/Api/users";
 
 export default function Security() {
     const user = useSelector((state) => state.user);
@@ -20,7 +20,7 @@ export default function Security() {
                 oldPass: values.oldPass,
                 newPass: values.newPass,
             };
-            const response = await updatePassword(data);
+            const response = await Users.updatePassword(data);
             console.log(response);
             /**
              * TODO: send notification that the update was successful or not

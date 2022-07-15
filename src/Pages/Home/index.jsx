@@ -7,12 +7,20 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
 import Messagelayout from "../../Layout/messagelayout";
-import MessageDetails from "../../Components/MessageDetails";
+import MessageDetails from "../../Sections/MessageDetails";
 import "../../Assets/css/utils.css";
-import RecentMessage from "../../Components/RecentMessage";
-import RequestTab from "../../Components/RequestTab";
-import NotificationTab from "../../Components/NotificationTab.jsx";
+import RecentMessage from "../../Sections/Tabs/RecentMessage";
+import RequestTab from "../../Sections/Tabs/RequestTab";
+import NotificationTab from "../../Sections/Tabs/NotificationTab.jsx/index.jsx";
+import GroupTab from 'src/Sections/Tabs/groupTab'
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+
+const tabTitle = {
+    0: 'Messages',
+    1: 'Groups',
+    2: 'Requests',
+    3: 'Notifications'
+}
 
 function Home({ value, setValue }) {
     const [openMessageDetail, setOpenMessageDetail] = useState(true);
@@ -38,12 +46,17 @@ function Home({ value, setValue }) {
     };
 
     const render = useCallback(() => {
-        if (value === 0) {
-            return <RecentMessage handleOpenMessage={handleOpenMessage} />;
-        } else if (value === 1) {
-            return <RequestTab />;
-        } else if (value === 2) {
-            return <NotificationTab />;
+        switch (value) {
+            case 0:
+                return <RecentMessage handleOpenMessage={handleOpenMessage} />;
+            case 1:
+                return <GroupTab handleOpenMessage={handleOpenMessage} />;
+            case 2:
+                return <RequestTab />;
+            case 3:
+                return <NotificationTab />;
+            default:
+                break;
         }
     }, [value]);
 
@@ -63,11 +76,7 @@ function Home({ value, setValue }) {
                 >
                     <Stack spacing={1}>
                         <Typography color="white" variant="h5" sx={{ px: 1.5, pt: 2 }}>
-                            {value === 0
-                                ? "Messages"
-                                : value === 1
-                                    ? "Requests"
-                                    : "Notifications"}
+                            {tabTitle[value]}
                         </Typography>
                         <Box sx={{ px: 1.5 }}>
                             <Autocomplete
@@ -178,11 +187,7 @@ function Home({ value, setValue }) {
                     <Grid item sx={{ width: "100%", bgcolor: "#1a1d78", height: '100vh' }}>
                         <Stack spacing={1}>
                             <Typography color="white" variant="h5" sx={{ px: 1.5, pt: 2 }}>
-                                {value === 0
-                                    ? "Messages"
-                                    : value === 1
-                                        ? "Requests"
-                                        : "Notifications"}
+                                {tabTitle[value]}
                             </Typography>
                             <Box sx={{ px: 1.5 }}>
                                 <Autocomplete

@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import React, { useState } from "react";
-import TabsSetting from "../Components/VerticalTabs/TabsSetting";
+import TabsSetting from "../Components/Navigation/VerticalTabs/TabsSetting";
 import Setting from "../Pages/Setting";
 import Other from "../Pages/Setting/other";
 import Preference from "../Pages/Setting/preference";
